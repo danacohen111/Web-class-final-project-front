@@ -4,9 +4,9 @@ export { CanceledError };
 
 export interface User {
     _id?: string;
+    username?: string;
     email: string;
     password: string;
-    avatar?: string;
 }
 
 export const register = (user: User) => {
@@ -19,7 +19,7 @@ export const login = async (user: User) => {
     const abortController = new AbortController();
     try {
         const response = await apiClient.post('/auth/login', user, { signal: abortController.signal });
-        const { accessToken, refreshToken, _id } = response.data;
+        const { refreshToken, accessToken, _id } = response.data;
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('userId', _id);
