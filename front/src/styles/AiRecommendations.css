@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     min-height: 100vh;
     background-color: #2ca597;
     color: #212529; 
@@ -10,34 +9,38 @@
   }
   
   .header {
+    width: 100%;
     text-align: center;
     margin-bottom: 20px;
+    padding-top: 20px;
   }
   
   .header h1 {
-    font-size: 2em;
+    font-size: 2em; 
     font-weight: 700;
     margin-bottom: 5px;
-    color: #ffffff; /* White color */
-    text-shadow: 2px 2px 0 #000000, -2px -2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000; /* Black framing */
+    color: #ffffff; 
+    text-shadow: 2px 2px 0 #000000, -2px -2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000; 
   }
   
   .header p {
-    font-size: 0.8em;
-    color: #ffffff; /* White color */
+    font-size: 1em; 
+    color: #ffffff; 
     font-weight: 600;
-    text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000; /* Black framing */
+    text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000; 
   }
   
   .content {
     width: 80%;
-    max-width: 600px;
+    max-width: 800px; 
     text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
   }
   
   .content p {
-    font-size: 1em;
-    color: #ffffff; /* White color */
+    font-size: 1.2em; 
+    color: #ffffff; 
     font-weight: 600;
     text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000; 
   }
@@ -48,11 +51,11 @@
   
   textarea {
     width: 100%;
-    min-height: 150px;
-    padding: 10px;
+    min-height: 400px;
+    padding: 15px;
     border: 1px solid #457b9d;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 18px; 
     resize: vertical;
     background-color: #bce2e2; 
     color: #212529;
@@ -64,13 +67,13 @@
   }
   
   button {
-    padding: 12px 25px;
+    padding: 10px 30px; 
     background-color: #bce2e2; 
     color: #031f1a; 
     border: none;
     border-radius: 25px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.2em;
     font-weight: 600;
   }
   
