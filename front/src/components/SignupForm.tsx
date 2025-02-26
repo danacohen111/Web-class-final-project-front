@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { registerUser, IUser } from "../services/user-service";
 import "./../styles/signup.css";
 
 const SignupForm = () => {
@@ -55,14 +55,15 @@ const SignupForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/auth/register", {
+      const user: IUser = {
         username: formData.username,
         email: formData.email,
         password: formData.password,
-      });
+      };
+      const response = await registerUser(user);
 
       if (response.status === 200) {
-        setSuccess("Registration successful! You can now sign in.");
+        setSuccess(response.message || "Registration successful! You can now sign in.");
         setError(null);
 
         // Clear the form
@@ -74,6 +75,9 @@ const SignupForm = () => {
           password: "",
           confirmPassword: "",
         });
+      } else {
+        setError(response.message || "Registration failed. Please try again.");
+        setSuccess(null);
       }
     } catch (error) {
       console.error("Registration failed:", error);
