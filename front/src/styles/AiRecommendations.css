@@ -1,0 +1,70 @@
+.ai-recommendations-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #a8dadc;
+    color: #1d3557;
+    font-family: sans-serif;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .content {
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  .textarea-container {
+    margin: 20px 0;
+  }
+  
+  textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 10px;
+    border: 1px solid #457b9d;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: vertical;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #457b9d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:disabled {
+    background-color: #a8dadc;
+    color: #457b9d;
+    cursor: not-allowed;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .search-results {
+    margin-top: 20px;
+    text-align: left;
+  }
+  
+  .search-results ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .search-results li {
+    margin-bottom: 5px;
+  }

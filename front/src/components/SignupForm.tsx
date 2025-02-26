@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { registerUser, IUser } from "../services/user-service";
 import "./../styles/signup.css";
 
@@ -20,6 +21,8 @@ const SignupForm = () => {
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -75,6 +78,9 @@ const SignupForm = () => {
           password: "",
           confirmPassword: "",
         });
+
+        // Navigate to AIRecommendations
+        navigate("/ai-recommendations");
       } else {
         setError(response.message || "Registration failed. Please try again.");
         setSuccess(null);

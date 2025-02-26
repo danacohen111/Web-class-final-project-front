@@ -1,13 +1,17 @@
-import './App.css'
-import SignupForm from './components/SignupForm'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SignupForm from './components/SignupForm';
+import AIRecommendations from './components/AIRecommendations';
 
-function App() {
-
+const App: React.FC = () => {
   return (
-    <div>
-      <SignupForm />
-    </div>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<SignupForm />} />
+        <Route path="/ai-recommendations" element={<AIRecommendations />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
