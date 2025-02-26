@@ -4,14 +4,29 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #a8dadc;
-    color: #1d3557;
-    font-family: sans-serif;
+    background-color: #2ca597;
+    color: #212529; 
+    font-family: 'Montserrat', sans-serif;
   }
   
   .header {
     text-align: center;
     margin-bottom: 20px;
+  }
+  
+  .header h1 {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #ffffff; /* White color */
+    text-shadow: 2px 2px 0 #000000, -2px -2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000; /* Black framing */
+  }
+  
+  .header p {
+    font-size: 0.8em;
+    color: #ffffff; /* White color */
+    font-weight: 600;
+    text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000; /* Black framing */
   }
   
   .content {
@@ -20,8 +35,15 @@
     text-align: center;
   }
   
+  .content p {
+    font-size: 1em;
+    color: #ffffff; /* White color */
+    font-weight: 600;
+    text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000; 
+  }
+  
   .textarea-container {
-    margin: 20px 0;
+    margin-bottom: 20px;
   }
   
   textarea {
@@ -29,19 +51,27 @@
     min-height: 150px;
     padding: 10px;
     border: 1px solid #457b9d;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 16px;
     resize: vertical;
+    background-color: #bce2e2; 
+    color: #212529;
+  }
+  
+  textarea::placeholder {
+    color: #031f1a; 
+    font-weight: 600;
   }
   
   button {
-    padding: 10px 20px;
-    background-color: #457b9d;
-    color: white;
+    padding: 12px 25px;
+    background-color: #bce2e2; 
+    color: #031f1a; 
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1em;
+    font-weight: 600;
   }
   
   button:disabled {
