@@ -23,10 +23,7 @@ const AiRecommendations: React.FC = () => {
     setError(null);
 
     try {
-      // 1. Fetch all real estate
       const allRealEstate: RealEstate[] = await RealEstateService.getAll();
-
-      // 2. Send dream and real estate data to Gemini
       const response = await GeminiService.analyzeDream(dream, allRealEstate);
 
       if (!response) {
@@ -34,8 +31,6 @@ const AiRecommendations: React.FC = () => {
         setLoading(false);
         return;
       }
-
-      // 3. Set the AI response in the same textarea
       setDream(response);
     } catch (err: any) {
       setError(err.message || 'An error occurred.');

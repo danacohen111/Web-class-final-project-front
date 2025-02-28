@@ -26,17 +26,13 @@ const GeminiService = {
         }
       );
 
-      // Debugging information to inspect the response structure
-      console.log("Gemini API Response:", response.data);
-
       if (!response.data.candidates || !response.data.candidates[0] || !response.data.candidates[0].content || !response.data.candidates[0].content.parts || !response.data.candidates[0].content.parts[0]) {
         throw new Error("Unexpected response structure from Gemini API");
       }
 
       const text = response.data.candidates[0].content.parts[0].text;
-
-      // Return the formatted text response
       return text;
+      
     } catch (error: any) {
       console.error('Gemini API Error:', error);
       if (error.response && error.response.status === 429) {
