@@ -79,7 +79,6 @@ const SignupForm = () => {
           confirmPassword: "",
         });
 
-        // Navigate to AIRecommendations
         navigate("/ai-recommendations");
       } else {
         setError(response.message || "Registration failed. Please try again.");
