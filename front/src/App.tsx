@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignupForm from './components/SignupForm';
-import AIRecommendations from './components/AIRecommendations';
+import AIRecommendations from './components/AiRecommendations';
 
 const App: React.FC = () => {
   return (
