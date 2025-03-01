@@ -18,7 +18,11 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .form-row.spaced {
+    margin-bottom: 50px; 
   }
   
   input {
@@ -47,7 +51,14 @@
     color: red;
   }
   
+  .error {
+    color: red;
+  }
+  
   .success-message {
     color: green;
   }
   
+  .error-messages {
+    margin-top: 20px;
+  }
