@@ -1,4 +1,3 @@
-// front/src/services/realestate-service.ts
 import apiClient from './api-client';
 
 interface RealEstate {

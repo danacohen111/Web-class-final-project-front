@@ -32,19 +32,33 @@ const GeminiService = {
 
       const text = response.data.candidates[0].content.parts[0].text;
       return text;
-      
+
     } catch (error: any) {
-      console.error('Gemini API Error:', error);
-      if (error.response && error.response.status === 429) {
-        console.error("Rate limit exceeded. Please try again later.");
-      } else if (error.response && error.response.status === 403) {
-        console.error("Quota exceeded or insufficient permissions.");
-      } else if (error.message) {
-        console.error("Error Message:", error.message);
-      }
-      return "An error occurred while processing your request.";
+      return handleGeminiApiError(error);
     }
   },
+};
+
+const handleGeminiApiError = (error: any): string => {
+  console.error('Gemini API Error:', error);
+  if (error.response) {
+    switch (error.response.status) {
+      case 429:
+        console.error("Rate limit exceeded. Please try again later.");
+        return "Rate limit exceeded. Please try again later.";
+      case 403:
+        console.error("Quota exceeded or insufficient permissions.");
+        return "Quota exceeded or insufficient permissions.";
+      default:
+        console.error(`Unexpected error: ${error.response.status}`);
+        return `Unexpected error: ${error.response.status}`;
+    }
+  } else if (error.message) {
+    console.error("Error Message:", error.message);
+    return `Error: ${error.message}`;
+  } else {
+    return "An unknown error occurred while processing your request.";
+  }
 };
 
 export default GeminiService;
