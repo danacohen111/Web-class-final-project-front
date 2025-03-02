@@ -12,8 +12,6 @@ export interface IUser {
 
 export const registerUser = (user: IUser) => {
   return new Promise<{ status: number; message: string }>((resolve, reject) => {
-    console.log("Registering user...");
-    console.log(user);
     apiClient
       .post("/auth/register", user)
       .then(async (response) => {

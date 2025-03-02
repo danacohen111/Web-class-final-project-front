@@ -28,18 +28,18 @@ const SignupForm = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const validateEmail = (email: string) => {
+  const validateEmail = (email: string): boolean => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
     setErrors({ ...errors, [name]: "" });
   };
 
-  const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
+  const imgSelected = (e: ChangeEvent<HTMLInputElement>): void => {
     console.log(e.target.value);
     if (e.target.files && e.target.files.length > 0) {
       setImgSrc(e.target.files[0]);
@@ -47,12 +47,12 @@ const SignupForm = () => {
     }
   };
 
-  const selectImg = () => {
+  const selectImg = (): void => {
     console.log("Selecting image...");
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
     let hasErrors = false;
