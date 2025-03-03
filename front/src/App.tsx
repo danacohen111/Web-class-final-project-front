@@ -1,5 +1,5 @@
 import './App.css'
-import SignupForm from './components/SignupForm'
+import SignupForm from './components/signup/SignupForm'
 
 function App() {
 
