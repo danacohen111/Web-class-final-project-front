@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import SignupForm from './components/SignupForm';
 import AIRecommendations from './components/AiRecommendations';
+import SignupForm from './components/signup/SignupForm'
+import './App.css'
 
 const App: React.FC = () => {
   return (

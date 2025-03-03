@@ -1,7 +1,9 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser, IUser } from "../services/user-service";
-import "./../styles/signup.css";
+import { useState, useRef, ChangeEvent } from "react";
+import { registerUser, IUser } from "./../../services/user-service";
+import { uploadPhoto } from "./../../services/file-service";
+import "./../../styles/signup.css";
+import logo from '../../../public/logo.png';
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -17,68 +19,105 @@ const SignupForm = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    imgSrc: "",
   });
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [imgSrc, setImgSrc] = useState<File | null>(null);
+  const [imgUrl, setImgUrl] = useState<string>("");
 
   const navigate = useNavigate();
 
-  const validateEmail = (email: string) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const validateEmail = (email: string): boolean => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Clear errors when user starts typing
     setErrors({ ...errors, [name]: "" });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const imgSelected = (e: ChangeEvent<HTMLInputElement>): void => {
+    console.log(e.target.value);
+    if (e.target.files && e.target.files.length > 0) {
+      setImgSrc(e.target.files[0]);
+      setErrors({ ...errors, imgSrc: "" });
+    }
+  };
+
+  const selectImg = (): void => {
+    console.log("Selecting image...");
+    fileInputRef.current?.click();
+  };
+
+  const resetForm = (): void => {
+    setFormData({
+      username: "",
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      password: "",
+      confirmPassword: "",
+    });
+    setImgSrc(null);
+    setImgUrl("");
+  };
+
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
-    // Validate Email
+    let hasErrors = false;
+    const newErrors = { ...errors };
+
     if (!validateEmail(formData.email)) {
-      setErrors({ ...errors, email: "Invalid email format" });
-      return;
+      newErrors.email = "Invalid email format";
+      hasErrors = true;
     }
 
-    // Validate Password
     if (formData.password.length < 6) {
-      setErrors({ ...errors, password: "Password must be at least 6 characters" });
-      return;
+      newErrors.password = "Password must be at least 6 characters";
+      hasErrors = true;
     }
 
-    // Validate Confirm Password
     if (formData.password !== formData.confirmPassword) {
-      setErrors({ ...errors, confirmPassword: "Passwords do not match" });
+      newErrors.confirmPassword = "Passwords do not match";
+      hasErrors = true;
+    }
+
+    if (!imgSrc) {
+      newErrors.imgSrc = "Please select a profile picture";
+      hasErrors = true;
+    }
+
+    setErrors(newErrors);
+
+    if (hasErrors) {
       return;
     }
 
     try {
+      const url = await uploadPhoto(imgSrc);
+      setImgUrl(url);
+
       const user: IUser = {
         username: formData.username,
+        fullName: formData.fullName,
         email: formData.email,
         password: formData.password,
+        imgUrl: url,
+        phoneNumber: formData.phoneNumber
       };
       const response = await registerUser(user);
 
-      if (response.status === 200) {
+      if (response.status === 200 && !hasErrors) {
         setSuccess(response.message || "Registration successful! You can now sign in.");
         setError(null);
-
-        // Clear the form
-        setFormData({
-          username: "",
-          fullName: "",
-          email: "",
-          phoneNumber: "",
-          password: "",
-          confirmPassword: "",
-        });
-
+        resetForm();
         navigate("/ai-recommendations");
       } else {
         setError(response.message || "Registration failed. Please try again.");
@@ -94,10 +133,14 @@ const SignupForm = () => {
   return (
     <div className="signup-container">
       <h2>Sign up & Start your journey</h2>
-      {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">{success}</p>}
       <form onSubmit={handleSubmit} className="signup-form">
         <div className="form-row">
+          <div className="d-flex justify-content-center position-relative">
+            <img src={imgSrc ? URL.createObjectURL(imgSrc) : logo} style={{ height: "100px", width: "100px", cursor: "pointer" }} className="img-fluid" onClick={selectImg} />
+            <input style={{ display: "none" }} ref={fileInputRef} type="file" onChange={imgSelected}></input>
+          </div>
+        </div>
+        <div className="form-row spaced">
           <input
             type="text"
             name="username"
@@ -114,7 +157,7 @@ const SignupForm = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-row">
+        <div className="form-row spaced">
           <input
             type="email"
             name="email"
@@ -123,7 +166,6 @@ const SignupForm = () => {
             onChange={handleChange}
             required
           />
-          {errors.email && <span className="error">{errors.email}</span>}
           <input
             type="text"
             name="phoneNumber"
@@ -132,7 +174,7 @@ const SignupForm = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-row">
+        <div className="form-row spaced">
           <input
             type="password"
             name="password"
@@ -141,7 +183,6 @@ const SignupForm = () => {
             onChange={handleChange}
             required
           />
-          {errors.password && <span className="error">{errors.password}</span>}
           <input
             type="password"
             name="confirmPassword"
@@ -150,10 +191,17 @@ const SignupForm = () => {
             onChange={handleChange}
             required
           />
-          {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
         </div>
         <button type="submit" className="signup-button">Sign up</button>
       </form>
+      <div className="error-messages">
+        {errors.email && <p className="error">{errors.email}</p>}
+        {errors.password && <p className="error">{errors.password}</p>}
+        {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+        {errors.imgSrc && <p className="error">{errors.imgSrc}</p>}
+      </div>
+      {error && <p className="error-message">{error}</p>}
+      {success && <p className="success-message">{success}</p>}
       <p className="signin-text">Already have an account? <a href="/login">Sign In</a></p>
     </div>
   );
