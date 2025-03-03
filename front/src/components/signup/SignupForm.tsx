@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useRef, ChangeEvent } from "react";
 import { registerUser, IUser } from "./../../services/user-service";
 import { uploadPhoto } from "./../../services/file-service";
@@ -25,6 +26,8 @@ const SignupForm = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [imgSrc, setImgSrc] = useState<File | null>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
+
+  const navigate = useNavigate();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -115,6 +118,7 @@ const SignupForm = () => {
         setSuccess(response.message || "Registration successful! You can now sign in.");
         setError(null);
         resetForm();
+        navigate("/ai-recommendations");
       } else {
         setError(response.message || "Registration failed. Please try again.");
         setSuccess(null);
