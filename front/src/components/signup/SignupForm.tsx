@@ -1,8 +1,8 @@
 import { useState, useRef, ChangeEvent } from "react";
-import { registerUser, IUser } from "../services/user-service";
-import { uploadPhoto } from "../services/file-service";
-import "./../styles/signup.css";
-import logo from '../../public/logo.png';
+import { registerUser, IUser } from "./../../services/user-service";
+import { uploadPhoto } from "./../../services/file-service";
+import "./../../styles/signup.css";
+import logo from '../../../public/logo.png';
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -52,6 +52,19 @@ const SignupForm = () => {
     fileInputRef.current?.click();
   };
 
+  const resetForm = (): void => {
+    setFormData({
+      username: "",
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      password: "",
+      confirmPassword: "",
+    });
+    setImgSrc(null);
+    setImgUrl("");
+  };
+
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
@@ -90,26 +103,18 @@ const SignupForm = () => {
 
       const user: IUser = {
         username: formData.username,
+        fullName: formData.fullName,
         email: formData.email,
         password: formData.password,
         imgUrl: url,
+        phoneNumber: formData.phoneNumber
       };
       const response = await registerUser(user);
 
-      if (response.status === 200) {
+      if (response.status === 200 && !hasErrors) {
         setSuccess(response.message || "Registration successful! You can now sign in.");
         setError(null);
-
-        setFormData({
-          username: "",
-          fullName: "",
-          email: "",
-          phoneNumber: "",
-          password: "",
-          confirmPassword: "",
-        });
-        setImgSrc(null);
-        setImgUrl("");
+        resetForm();
       } else {
         setError(response.message || "Registration failed. Please try again.");
         setSuccess(null);
