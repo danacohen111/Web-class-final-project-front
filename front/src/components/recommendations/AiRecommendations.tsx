@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import RealEstateService from '../services/realestate-service';
-import GeminiService from '../services/gemini-service';
-import './../styles/AiRecommendations.css';
+import RealEstateService from '../../services/realestate-service';
+import GeminiService from '../../services/gemini-service';
+import './../../styles/AiRecommendations.css';
 
 interface RealEstate {
   city: string;

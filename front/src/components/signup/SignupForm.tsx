@@ -202,7 +202,6 @@ const SignupForm = () => {
       </div>
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}
-      <p className="signin-text">Already have an account? <a href="/login">Sign In</a></p>
     </div>
   );
 };
