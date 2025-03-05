@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
-import { loginUser2, googleSignin, IUser } from "../../services/user-service";
+import { loginUser, googleSignin, IUser } from "../../services/user-service";
 import "./../../styles/Login.css";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const Login = () => {
                 email: emailInputRef.current?.value,
                 password: passwordInputRef.current?.value
             };
-            const res = await loginUser2({ password: user.password, email: user.email });
+            const res = await loginUser({ password: user.password, email: user.email });
             console.log(res);
             navigate("/home"); // TODO: Redirects to the homepage
         }

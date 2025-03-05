@@ -4,7 +4,7 @@ import apiClient from "./api-client";
 
 export interface IUser {
   email: string;
-  username: string;
+  username?: string;
   password: string;
   imgUrl?: string;
   phoneNumber?: string;
@@ -19,7 +19,7 @@ export const registerUser = (user: IUser) => {
     apiClient
       .post("/auth/register", user)
       .then(async (response) => {
-        const loginResponse = await loginUser({ username: user.username, password: user.password, email: user.email });
+        const loginResponse = await loginUser({ password: user.password, email: user.email });
         resolve({ status: response.status, message: response.data.message });
       })
       .catch((error) => {
@@ -28,28 +28,11 @@ export const registerUser = (user: IUser) => {
   });
 };
 
-export const loginUser = (credentials: { username: string; password: string; email: string }) => {
+export const loginUser = (credentials: { password: string; email: string }) => {
   return new Promise<{ status: number; message: string; accessToken?: string; refreshToken?: string }>((resolve, reject) => {
     apiClient
       .post("/auth/login", credentials)
       .then((response) => {
-        const { accessToken, refreshToken } = response.data;
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-        resolve({ status: response.status, message: response.data.message, accessToken, refreshToken });
-      })
-      .catch((error) => {
-        reject({ status: error.response.status, message: error.response.data.message });
-      });
-  });
-};
-
-export const loginUser2 = (credentials: { password: string; email: string }) => {
-  return new Promise<{ status: number; message: string; accessToken?: string; refreshToken?: string }>((resolve, reject) => {
-    apiClient
-      .post("/auth/login", credentials)
-      .then((response) => {
-        console.log(response)
         const { accessToken, refreshToken } = response.data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
@@ -72,4 +55,4 @@ export const googleSignin = (credentialResponse: CredentialResponse) => {
           reject(error)
       })
   })
-}
+};
