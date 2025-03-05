@@ -1,26 +1,26 @@
-
 import apiClient from "./api-client";
 
-interface IUpoloadResponse {
+interface IUploadResponse {
     url: string;
 }
-export const uploadPhoto = async (photo: File) => {
+
+export const uploadPhoto = async (photo: File): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
-        console.log("Uploading photo..." + photo)
         const formData = new FormData();
         if (photo) {
             formData.append("file", photo);
-            apiClient.post<IUpoloadResponse>('file?file=123.jpeg', formData, {
+            apiClient.post<IUploadResponse>('file', formData, {
                 headers: {
-                    'Content-Type': 'image/jpeg'
+                    'Content-Type': 'multipart/form-data'
                 }
             }).then(res => {
-                console.log(res);
                 resolve(res.data.url);
             }).catch(err => {
                 console.log(err);
                 reject(err);
             });
+        } else {
+            reject(new Error("No photo provided"));
         }
     });
 }

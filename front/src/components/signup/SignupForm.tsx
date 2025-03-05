@@ -43,7 +43,6 @@ const SignupForm = () => {
   };
 
   const imgSelected = (e: ChangeEvent<HTMLInputElement>): void => {
-    console.log(e.target.value);
     if (e.target.files && e.target.files.length > 0) {
       setImgSrc(e.target.files[0]);
       setErrors({ ...errors, imgSrc: "" });
@@ -51,7 +50,6 @@ const SignupForm = () => {
   };
 
   const selectImg = (): void => {
-    console.log("Selecting image...");
     fileInputRef.current?.click();
   };
 
