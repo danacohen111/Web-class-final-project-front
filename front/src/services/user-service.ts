@@ -46,7 +46,6 @@ export const loginUser = (credentials: { password: string; email: string }) => {
 
 export const googleSignin = (credentialResponse: CredentialResponse) => {
   return new Promise<IUser>((resolve, reject) => {
-      console.log("googleSignin ...")
       apiClient.post("/auth/google", credentialResponse).then((response) => {
           console.log(response)
           resolve(response.data)

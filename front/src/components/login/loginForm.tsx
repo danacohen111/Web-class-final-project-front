@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { loginUser, googleSignin, IUser } from "../../services/user-service";
 import "./../../styles/Login.css";
@@ -9,30 +9,38 @@ const Login = () => {
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
+    const [error, setError] = useState<string | null>(null);
+
     const onLoginUser = async () => {
+        setError(null);
         if (emailInputRef.current?.value && passwordInputRef.current?.value) {
             const user: IUser = {
                 email: emailInputRef.current?.value,
                 password: passwordInputRef.current?.value
             };
-            const res = await loginUser({ password: user.password, email: user.email });
-            console.log(res);
-            navigate("/home"); // TODO: Redirects to the homepage
+            try {
+                await loginUser({ password: user.password, email: user.email });
+                navigate("/home"); // Redirect to home on success
+            } catch (err: any) {
+                setError(err.message || "Login failed. Please try again.");
+            }
+        } else {
+            setError("Please enter both email and password.");
         }
     };
 
     const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
-        console.log(credentialResponse);
+        setError(null);
         try {
-            const res = await googleSignin(credentialResponse);
-            console.log(res);
-        } catch (e) {
-            console.log(e);
+            await googleSignin(credentialResponse);
+            navigate("/home");
+        } catch (err: any) {
+            setError(err.message || "Google login failed. Please try again.");
         }
     };
 
     const onGoogleLoginFailure = () => {
-        console.log("Google login failed");
+        setError("Google login failed. Please try again.");
     };
 
     return (
@@ -46,7 +54,8 @@ const Login = () => {
                 <button className="signin-button" onClick={onLoginUser}>Sign in</button>
                 <div className="google-login-container">
                     <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
-                </div>                
+                </div>
+                {error && <p className="error-message">{error}</p>}                
                 <p className="signup-text">Don't have an account? <a href="/signup" className="signup-link">Sign Up</a></p>
             </div>
         </div>
