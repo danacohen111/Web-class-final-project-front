@@ -49,7 +49,7 @@ const Login = () => {
                 <h1 className="title">SpotWise</h1>
                 <p className="subtitle">Your Vision, The Perfect Location.</p>
                 <p className="instruction">Sign in & Continue your journey</p>
-                <input ref={emailInputRef} type="text" placeholder="Username" className="input-field" />
+                <input ref={emailInputRef} type="text" placeholder="Email" className="input-field" />
                 <input ref={passwordInputRef} type="password" placeholder="Password" className="input-field" />
                 <button className="signin-button" onClick={onLoginUser}>Sign in</button>
                 <div className="google-login-container">
