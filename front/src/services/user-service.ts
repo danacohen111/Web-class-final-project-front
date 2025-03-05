@@ -33,9 +33,10 @@ export const loginUser = (credentials: { password: string; email: string }) => {
     apiClient
       .post("/auth/login", credentials)
       .then((response) => {
-        const { accessToken, refreshToken } = response.data;
+        const { accessToken, refreshToken, _id } = response.data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("id", _id);
         resolve({ status: response.status, message: response.data.message, accessToken, refreshToken });
       })
       .catch((error) => {
@@ -54,4 +55,25 @@ export const googleSignin = (credentialResponse: CredentialResponse) => {
           reject(error)
       })
   })
+};
+
+export const getUserById = async (): Promise<IUser> => {
+  const userId = localStorage.getItem("id");
+  const response = await apiClient.get<IUser>(`/users/${userId}`);
+  return response.data;
+};
+
+export const updateUser = async (formData: FormData) => {
+  try {
+    const userId = localStorage.getItem("id");
+    const response = await apiClient.put(`/user/${userId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
 };
