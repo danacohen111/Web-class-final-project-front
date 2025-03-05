@@ -1,5 +1,4 @@
-import { CredentialResponse } from "@react-oauth/google"
-
+import { CredentialResponse } from "@react-oauth/google";
 import apiClient from "./api-client";
 
 export interface IUser {
@@ -33,9 +32,10 @@ export const loginUser = (credentials: { password: string; email: string }) => {
     apiClient
       .post("/auth/login", credentials)
       .then((response) => {
-        const { accessToken, refreshToken } = response.data;
+        const { accessToken, refreshToken, _id } = response.data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("id", _id);
         resolve({ status: response.status, message: response.data.message, accessToken, refreshToken });
       })
       .catch((error) => {
@@ -46,12 +46,50 @@ export const loginUser = (credentials: { password: string; email: string }) => {
 
 export const googleSignin = (credentialResponse: CredentialResponse) => {
   return new Promise<IUser>((resolve, reject) => {
-      apiClient.post("/auth/google", credentialResponse).then((response) => {
-          console.log(response)
-          resolve(response.data)
-      }).catch((error) => {
-          console.log(error)
-          reject(error)
+    apiClient
+      .post("/auth/google", credentialResponse)
+      .then((response) => {
+        const { accessToken, refreshToken, _id } = response.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("id", _id);
+        resolve(response.data);
       })
-  })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+export const getUserById = async (): Promise<IUser> => {
+  const userId = localStorage.getItem("id");
+  const response = await apiClient.get<IUser>(`/users/${userId}`);
+  return response.data;
+};
+
+export const updateUser = async (formData: FormData) => {
+  try {
+    const userId = localStorage.getItem("id");
+    const accessToken = localStorage.getItem("accessToken");
+    const payload: any = {};
+
+    if (formData.has("username")) {
+      payload.username = formData.get("username");
+    }
+    if (formData.has("image")) {
+      payload.imgUrl = formData.get("image");
+    }
+
+    const response = await apiClient.put(`/users/${userId}`, payload, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `JWT ${accessToken}`
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
 };

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { loginUser, googleSignin, IUser } from "../../services/user-service";
-import "./../../styles/Login.css";
+import "./../../styles/login.css";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -20,7 +20,7 @@ const Login = () => {
             };
             try {
                 await loginUser({ password: user.password, email: user.email });
-                navigate("/home"); // Redirect to home on success
+                navigate("/profile");
             } catch (err: any) {
                 setError(err.message || "Login failed. Please try again.");
             }
@@ -33,7 +33,7 @@ const Login = () => {
         setError(null);
         try {
             await googleSignin(credentialResponse);
-            navigate("/home");
+            navigate("/profile");
         } catch (err: any) {
             setError(err.message || "Google login failed. Please try again.");
         }

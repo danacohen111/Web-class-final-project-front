@@ -1,0 +1,10 @@
+.background {
+  background: url('../assets/Spotwise_background.png') no-repeat center center fixed;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.no-background {
+  background: none;
+}
