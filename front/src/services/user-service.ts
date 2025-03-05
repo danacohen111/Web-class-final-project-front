@@ -55,3 +55,13 @@ export const googleSignin = (credentialResponse: CredentialResponse) => {
       })
   })
 };
+
+export const getById = async (id: string) => {
+  try {
+    const response = await apiClient.get<IUser>(`/users/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    throw error; 
+  }
+};

@@ -33,7 +33,7 @@ const Login = () => {
         setError(null);
         try {
             await googleSignin(credentialResponse);
-            navigate("/home");
+            navigate("/posts");
         } catch (err: any) {
             setError(err.message || "Google login failed. Please try again.");
         }
