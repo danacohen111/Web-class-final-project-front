@@ -53,7 +53,7 @@ const Login = () => {
                 <input ref={passwordInputRef} type="password" placeholder="Password" className="input-field" />
                 <button className="signin-button" onClick={onLoginUser}>Sign in</button>
                 <div className="google-login-container">
-                    <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
+                    <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} locale="en" />
                 </div>
                 {error && <p className="error-message">{error}</p>}                
                 <p className="signup-text">Don't have an account? <a href="/signup" className="signup-link">Sign Up</a></p>
