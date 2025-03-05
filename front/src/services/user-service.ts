@@ -1,5 +1,4 @@
-import { CredentialResponse } from "@react-oauth/google"
-
+import { CredentialResponse } from "@react-oauth/google";
 import apiClient from "./api-client";
 
 export interface IUser {
@@ -47,14 +46,20 @@ export const loginUser = (credentials: { password: string; email: string }) => {
 
 export const googleSignin = (credentialResponse: CredentialResponse) => {
   return new Promise<IUser>((resolve, reject) => {
-      apiClient.post("/auth/google", credentialResponse).then((response) => {
-          console.log(response)
-          resolve(response.data)
-      }).catch((error) => {
-          console.log(error)
-          reject(error)
+    apiClient
+      .post("/auth/google", credentialResponse)
+      .then((response) => {
+        const { accessToken, refreshToken, _id } = response.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("id", _id);
+        resolve(response.data);
       })
-  })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
 };
 
 export const getUserById = async (): Promise<IUser> => {
@@ -66,9 +71,20 @@ export const getUserById = async (): Promise<IUser> => {
 export const updateUser = async (formData: FormData) => {
   try {
     const userId = localStorage.getItem("id");
-    const response = await apiClient.put(`/user/${userId}`, formData, {
+    const accessToken = localStorage.getItem("accessToken");
+    const payload: any = {};
+
+    if (formData.has("username")) {
+      payload.username = formData.get("username");
+    }
+    if (formData.has("image")) {
+      payload.imgUrl = formData.get("image");
+    }
+
+    const response = await apiClient.put(`/users/${userId}`, payload, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
+        "Authorization": `JWT ${accessToken}`
       },
     });
     return response.data;

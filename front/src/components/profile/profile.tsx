@@ -10,6 +10,7 @@ const Profile: React.FC = () => {
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -46,7 +47,7 @@ const Profile: React.FC = () => {
       if (imageUrl) formData.append("image", imageUrl);
 
       await updateUser(formData);
-      alert("Profile updated successfully!");
+      setSuccessMessage("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
@@ -99,6 +100,9 @@ const Profile: React.FC = () => {
         >
           {loading ? "Updating..." : "Update Profile"}
         </button>
+
+        {/* Success Message */}
+        {successMessage && <p className="success-message">{successMessage}</p>}
       </div>
     </div>
   );
