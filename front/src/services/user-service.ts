@@ -1,10 +1,12 @@
+import { CredentialResponse } from "@react-oauth/google"
+
 import apiClient from "./api-client";
 
 export interface IUser {
   email: string;
-  username: string;
+  username?: string;
   password: string;
-  imgUrl: string;
+  imgUrl?: string;
   phoneNumber?: string;
   fullName?: string;
   _id?: string;
@@ -17,7 +19,7 @@ export const registerUser = (user: IUser) => {
     apiClient
       .post("/auth/register", user)
       .then(async (response) => {
-        const loginResponse = await loginUser({ username: user.username, password: user.password, email: user.email });
+        const loginResponse = await loginUser({ password: user.password, email: user.email });
         resolve({ status: response.status, message: response.data.message });
       })
       .catch((error) => {
@@ -26,7 +28,7 @@ export const registerUser = (user: IUser) => {
   });
 };
 
-export const loginUser = (credentials: { username: string; password: string; email: string }) => {
+export const loginUser = (credentials: { password: string; email: string }) => {
   return new Promise<{ status: number; message: string; accessToken?: string; refreshToken?: string }>((resolve, reject) => {
     apiClient
       .post("/auth/login", credentials)
@@ -40,4 +42,16 @@ export const loginUser = (credentials: { username: string; password: string; ema
         reject({ status: error.response.status, message: error.response.data.message });
       });
   });
+};
+
+export const googleSignin = (credentialResponse: CredentialResponse) => {
+  return new Promise<IUser>((resolve, reject) => {
+      apiClient.post("/auth/google", credentialResponse).then((response) => {
+          console.log(response)
+          resolve(response.data)
+      }).catch((error) => {
+          console.log(error)
+          reject(error)
+      })
+  })
 };
