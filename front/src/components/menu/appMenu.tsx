@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Brain, User, LogOut } from "lucide-react";
+import { Brain, User, LogOut, Menu } from "lucide-react";
 import "./../../styles/AppMenu.css";
-import logo from "../../../public/logo.png";
 
 const pages = [
   { name: "AI", path: "/ai-recommendations", icon: <Brain size={24} /> },
@@ -22,15 +21,12 @@ const AppMenu: React.FC = () => {
 
   return (
     <div className="app-menu">
-      {/* App Logo */}
-      <img
-        src={logo}
-        alt="App Logo"
-        className="app-logo"
+      <Menu
+        size={24}
+        className="menu-icon"
         onClick={() => setShowMenu(!showMenu)}
       />
 
-      {/* Dropdown Menu */}
       {showMenu && (
         <div className="menu-dropdown">
           {pages.map((page) => (
