@@ -1,22 +1,32 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AIRecommendations from './components/recommendations/AiRecommendations';
-import SignupForm from './components/signup/SignupForm';
-import LoginForm from './components/login/LoginForm';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from "react-router-dom";
+import Login from "./components/login/loginForm";
+import Profile from "./components/profile/profile";
+import AIRecommendations from "./components/recommendations/AiRecommendations";
+import AppMenu from "./components/menu/appMenu";
 import Posts from './components/posts/RealEstatePost';
-import './App.css';
 
 const App: React.FC = () => {
+  const location = useLocation();
+
   return (
-      <Router>
-        <Routes>
-          <Route path="/" element={<LoginForm />} />
-          <Route path="/ai-recommendations" element={<AIRecommendations />} />
-          <Route path="/signup" element={<SignupForm />} />
-          <Route path="/posts" element={<Posts />} />
-        </Routes>
-      </Router>
+    <div>
+      {location.pathname !== "/login" && <AppMenu />}
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/ai-recommendations" element={<AIRecommendations />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/posts" element={<Posts />} />
+      </Routes>
+    </div>
   );
 };
 
-export default App;
+const AppWrapper: React.FC = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWrapper;
