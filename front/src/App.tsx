@@ -11,7 +11,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      {location.pathname !== "/login" && <AppMenu />}
+      {location.pathname !== "/login" && location.pathname !== "/signup" && <AppMenu />}
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/profile" element={<Profile />} />
