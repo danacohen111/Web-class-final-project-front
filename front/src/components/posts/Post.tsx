@@ -7,8 +7,8 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
-  const userImgUrl = post.sender?.imgUrl || "/default-avatar.png"; 
-  const username = post.sender?.username || "Anonymous"; 
+  const userImgUrl = post.user?.imgUrl || "/default-avatar.png"; 
+  const username = post.user?.username || "Anonymous"; 
 
   const realEstate = post.realEstate || {}; 
   const { location, city = "Unknown City", address = "No Address", description = "No Description", owner = "Unknown Owner" } = realEstate;

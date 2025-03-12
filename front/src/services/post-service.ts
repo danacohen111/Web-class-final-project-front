@@ -5,6 +5,7 @@ import { getUserById } from "./user-service";
 export interface IUser {
   username?: string;
   imgUrl?: string;
+  _id:string;
 }
 
 export interface IRealEstate {
@@ -19,9 +20,8 @@ export interface IRealEstate {
 
 export interface IPost {
   _id: string;
-  userId: string;
-  sender: IUser;
-  realEstate: IRealEstate;
+  user: string;
+  realEstate: string;
 }
 
 const PostService = {
@@ -32,19 +32,17 @@ const PostService = {
     const postsWithDetails = await Promise.all(
       posts.map(async (post) => {
         try {
-          const userResponse = await getUserById(post.userId); 
-          const realEstateResponse = post.realEstate?._id
-            ? await RealEstateService.getById(post.realEstate._id)
+          const userResponse = post?.user ? await getUserById(post.user) : null;
+          const realEstateResponse = post?.realEstate
+            ? await RealEstateService.getById(post?.realEstate)
             : null;
 
           return {
             ...post,
-            sender: userResponse, 
-            realEstate: realEstateResponse || post.realEstate,
           };
         } catch (error) {
           console.error("Error fetching post details:", error);
-          return post; 
+          return post;
         }
       })
     );
