@@ -18,6 +18,9 @@ const Profile: React.FC = () => {
   const [originalUsername, setOriginalUsername] = useState("");
   const [originalPreview, setOriginalPreview] = useState<string | null>(null);
 
+  const [hasUsernameChanged, setHasUsernameChanged] = useState(false);
+  const [hasImageChanged, setHasImageChanged] = useState(false);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -40,12 +43,18 @@ const Profile: React.FC = () => {
       const file = event.target.files[0];
       setImage(file);
       setPreview(URL.createObjectURL(file));
+      setHasImageChanged(true);
     }
   };
 
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+    setHasUsernameChanged(true);
+  };
+
   const handleUpdateProfile = async () => {
-    if (!username && !image) {
-      setErrorMessage("Please enter a username or select an image.");
+    if (!hasUsernameChanged && !hasImageChanged) {
+      setErrorMessage("Please enter a new username or select a new image.");
       return;
     }
 
@@ -67,6 +76,8 @@ const Profile: React.FC = () => {
       setIsEditing(false);
       setOriginalUsername(username);
       setOriginalPreview(imageUrl || preview);
+      setHasUsernameChanged(false);
+      setHasImageChanged(false);
     } catch (error) {
       setErrorMessage("Couldn't update profile. Please try again.");
     } finally {
@@ -81,6 +92,8 @@ const Profile: React.FC = () => {
     setImage(null);
     setPreview(originalPreview);
     setUsername(originalUsername);
+    setHasUsernameChanged(false);
+    setHasImageChanged(false);
   };
 
   const handleEditProfile = () => {
@@ -90,6 +103,8 @@ const Profile: React.FC = () => {
   };
 
   const displayName = isEditing ? username : (originalUsername || email.split('@')[0] || "My Profile");
+
+  const isUpdateDisabled = !hasUsernameChanged && !hasImageChanged;
 
   return (
     <div className="profile-container">
@@ -132,14 +147,14 @@ const Profile: React.FC = () => {
               type="text"
               placeholder="Enter new username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleUsernameChange}
               className="profile-input"
             />
 
             <button
               onClick={handleUpdateProfile}
-              className="profile-button"
-              disabled={loading}
+              className={`profile-button ${isUpdateDisabled ? 'disabled' : ''}`}
+              disabled={loading || isUpdateDisabled}
             >
               {loading ? "Updating..." : "Update Profile"}
             </button>

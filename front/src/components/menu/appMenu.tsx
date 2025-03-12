@@ -54,7 +54,7 @@ const AppMenu: React.FC = () => {
                   handleLogout();
                 } else {
                   navigate(page.path);
-                  setShowMenu(false); // Close the menu after navigation
+                  setShowMenu(false);
                 }
               }}
             >
