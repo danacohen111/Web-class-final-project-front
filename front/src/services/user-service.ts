@@ -62,8 +62,9 @@ export const googleSignin = (credentialResponse: CredentialResponse) => {
   });
 };
 
-export const getUserById = async (): Promise<IUser> => {
-  const userId = localStorage.getItem("id");
+export const getUserById = async (id?: string): Promise<IUser> => {
+  const userId = id || localStorage.getItem("id");
+  if (!userId) throw new Error("User ID is missing");
   const response = await apiClient.get<IUser>(`/users/${userId}`);
   return response.data;
 };

@@ -1,6 +1,6 @@
 import apiClient from "./api-client";
 import RealEstateService from "./realestate-service";
-import { getById } from "./user-service";
+import { getUserById } from "./user-service";
 
 export interface IUser {
   username?: string;
@@ -20,7 +20,7 @@ export interface IRealEstate {
 export interface IPost {
   _id: string;
   userId: string;
-  user: IUser;
+  sender: IUser;
   realEstate: IRealEstate;
 }
 
@@ -31,13 +31,21 @@ const PostService = {
 
     const postsWithDetails = await Promise.all(
       posts.map(async (post) => {
-        const userResponse = await getById(post.userId); 
-        const realEstateResponse = await RealEstateService.getById(post.realEstate._id); 
-        return {
-          ...post,
-          user: userResponse,
-          realEstate: realEstateResponse,
-        };
+        try {
+          const userResponse = await getUserById(post.userId); 
+          const realEstateResponse = post.realEstate?._id
+            ? await RealEstateService.getById(post.realEstate._id)
+            : null;
+
+          return {
+            ...post,
+            sender: userResponse, 
+            realEstate: realEstateResponse || post.realEstate,
+          };
+        } catch (error) {
+          console.error("Error fetching post details:", error);
+          return post; 
+        }
       })
     );
 
