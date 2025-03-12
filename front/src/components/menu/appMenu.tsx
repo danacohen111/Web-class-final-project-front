@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Brain, User, LogOut, Menu } from "lucide-react";
 import "./../../styles/AppMenu.css";
@@ -13,14 +13,28 @@ const AppMenu: React.FC = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [hoveredPage, setHoveredPage] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      setShowMenu(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="app-menu">
+    <div className="app-menu" ref={menuRef}>
       <Menu
         size={24}
         className="menu-icon"
@@ -40,6 +54,7 @@ const AppMenu: React.FC = () => {
                   handleLogout();
                 } else {
                   navigate(page.path);
+                  setShowMenu(false); // Close the menu after navigation
                 }
               }}
             >
