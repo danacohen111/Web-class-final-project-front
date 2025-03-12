@@ -1,5 +1,5 @@
 import axios, { CanceledError } from "axios";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../config.ts";
 
 export { CanceledError }
 const apiClient = axios.create({

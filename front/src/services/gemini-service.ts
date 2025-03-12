@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GEMINI_API_KEY } from '../config';
+import { GEMINI_API_KEY } from '../config.dev';
 
 const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
