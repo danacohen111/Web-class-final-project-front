@@ -1,17 +1,6 @@
 import { CredentialResponse } from "@react-oauth/google";
 import apiClient from "./api-client";
-
-export interface IUser {
-  email: string;
-  username?: string;
-  password: string;
-  imgUrl?: string;
-  phoneNumber?: string;
-  fullName?: string;
-  _id?: string;
-  accessToken?: string;
-  refreshToken?: string;
-}
+import { IUser } from "../models/models"
 
 export const registerUser = (user: IUser) => {
   return new Promise<{ status: number; message: string }>((resolve, reject) => {

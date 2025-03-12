@@ -7,28 +7,22 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
-  const userImgUrl = post.user?.imgUrl || "/default-avatar.png"; 
-  const username = post.user?.username || "Anonymous"; 
-
-  const realEstate = post.realEstate || {}; 
-  const { location, city = "Unknown City", address = "No Address", description = "No Description", owner = "Unknown Owner" } = realEstate;
-
   return (
     <div className="post">
       <div className="post-header">
-        <img src={userImgUrl} alt="User" className="user-img" />
-        <span className="username">{username}</span>
+        <img src={post.sender?.imgUrl || "/default-avatar.png"} alt="User" className="user-img" />
+        <span className="username">{post.sender?.username || "Anonymous"}</span>
       </div>
+      
       <div className="real-estate-info">
-        <h3>{city}</h3>
-        <p>{address}</p>
-        <p>{description}</p>
-        <p>Owner: {owner}</p>
-        {location ? (
-          <img src={location} alt="Real Estate" className="real-estate-img" />
+        {post.realEstateDetails?.location ? (
+          <img src={post.realEstateDetails?.location} alt="Real Estate" className="real-estate-img" />
         ) : (
-          <p>No image available</p> 
+          <p>No image available</p>
         )}
+        <p>{post.realEstateDetails?.city}</p>
+        <p>{post.realEstateDetails?.address}</p>
+        <p>{post.realEstateDetails?.description}</p>
       </div>
     </div>
   );

@@ -1,45 +1,39 @@
 import apiClient from "./api-client";
 import RealEstateService from "./realestate-service";
 import { getUserById } from "./user-service";
-
-export interface IUser {
-  username?: string;
-  imgUrl?: string;
-  _id:string;
-}
-
-export interface IRealEstate {
-  city: string;
-  address: string;
-  owner: string;
-  description: string;
-  area: string;
-  location: string;
-  _id: string;
-}
-
-export interface IPost {
-  _id: string;
-  user: string;
-  realEstate: string;
-}
+import { IUser, IRealEstate, IPost } from "../models/models";
 
 const PostService = {
   async getAll(): Promise<IPost[]> {
     const response = await apiClient.get<IPost[]>("/posts");
     const posts = response.data;
 
-    const postsWithDetails = await Promise.all(
+    const postsWithDetails: IPost[] = await Promise.all(
       posts.map(async (post) => {
         try {
-          const userResponse = post?.user ? await getUserById(post.user) : null;
-          const realEstateResponse = post?.realEstate
-            ? await RealEstateService.getById(post?.realEstate)
+          const userDetails: IUser | null = post.user ? await getUserById(post.user) : null;
+
+          console.log(post.realestate);
+          const realEstateDetails: IRealEstate | null = post.realestate
+            ? await RealEstateService.getById(post.realestate)
             : null;
+
+            console.log("userDetails", userDetails);
+            console.log("realEstateDetails", realEstateDetails);
 
           return {
             ...post,
-          };
+            sender: userDetails ?? { username: "Unknown", imgUrl: "/default-avatar.png", _id: "" },
+            realEstateDetails: realEstateDetails ?? {
+              city: "Unknown City",
+              address: "No Address",
+              owner: "Unknown Owner",
+              description: "No Description",
+              area: "N/A",
+              location: "",
+              _id: "",
+            },
+          } as IPost; 
         } catch (error) {
           console.error("Error fetching post details:", error);
           return post;
