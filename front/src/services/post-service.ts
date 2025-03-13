@@ -42,4 +42,21 @@ const PostService = {
   },
 };
 
+export const createPost = async (postData: IPost) => {
+  try {
+    console.log("try posting", postData);
+    const accessToken = localStorage.getItem("accessToken");
+    const response = await apiClient.post('/posts', postData, {
+      headers: {
+        "Authorization": `JWT ${accessToken}`,
+        "Content-Type": "application/json"
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating post:', error);
+    throw error;
+  }
+};
+
 export default PostService;

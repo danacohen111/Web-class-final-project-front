@@ -23,4 +23,21 @@ const RealEstateService = {
   },
 };
 
+export const createRealEstate = async (realEstateData: IRealEstate) => {
+  try {
+    console.log("try realestating", realEstateData);
+    const accessToken = localStorage.getItem("accessToken");
+    const response = await apiClient.post('/realestate', realEstateData, {
+      headers: {
+        "Authorization": `JWT ${accessToken}`,
+        "Content-Type": "application/json"
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating real estate:', error);
+    throw error;
+  }
+};
+
 export default RealEstateService;
