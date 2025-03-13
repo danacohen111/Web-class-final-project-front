@@ -14,6 +14,12 @@ COPY . .
 # Build the Vite application
 RUN npm run build
 
+# Build the React application, injecting environment variables
+ARG VITE_GEMINI_API_KEY
+ARG VITE_BASE_URL
+
+RUN VITE_GEMINI_API_KEY=$VITE_GEMINI_API_KEY BASE_URL=$BASE_URL
+
 # Serve Stage
 FROM nginx:alpine
 

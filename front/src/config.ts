@@ -1,10 +1,4 @@
-let configPromise: Promise<{ GEMINI_API_KEY: string; BASE_URL: string }>;
-
-if (import.meta.env.MODE === 'production') {
-  configPromise = import('./config.prod');
-} else {
-  configPromise = import('./config.dev');
-}
-
-export const config = await configPromise;
-export const { GEMINI_API_KEY, BASE_URL } = config;
+export const config = {
+  GEMINI_API_KEY: import.meta.env.VITE_GEMINI_API_KEY,
+  BASE_URL: import.meta.env.VITE_BASE_URL,
+};
