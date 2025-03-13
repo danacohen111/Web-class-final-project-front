@@ -11,7 +11,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
     <div className="post">
       <div className="post-header">
         <img src={post.sender?.imgUrl || "/default-avatar.png"} alt="User" className="user-img" />
-        <span className="username">{post.sender?.username || "Anonymous"}</span>
+        <span className="username">{post.sender?.username || post.user.email.split("@")[0]}</span>
       </div>
       
       <div className="real-estate-info">
