@@ -25,7 +25,6 @@ const RealEstateService = {
 
 export const createRealEstate = async (realEstateData: IRealEstate) => {
   try {
-    console.log("try realestating", realEstateData);
     const accessToken = localStorage.getItem("accessToken");
     const response = await apiClient.post('/realestate', realEstateData, {
       headers: {

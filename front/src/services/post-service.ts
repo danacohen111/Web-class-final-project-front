@@ -44,7 +44,6 @@ const PostService = {
 
 export const createPost = async (postData: IPost) => {
   try {
-    console.log("try posting", postData);
     const accessToken = localStorage.getItem("accessToken");
     const response = await apiClient.post('/posts', postData, {
       headers: {
