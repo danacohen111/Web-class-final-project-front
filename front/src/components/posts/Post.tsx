@@ -15,14 +15,17 @@ const Post: React.FC<PostProps> = ({ post }) => {
       </div>
       
       <div className="real-estate-info">
-        {post.realEstateDetails?.location ? (
-          <img src={post.realEstateDetails?.location} alt="Real Estate" className="real-estate-img" />
+        {post.realestate?.imgUrl ? (
+          <img src={post.realestate?.imgUrl} alt="Real Estate Image" className="real-estate-img" />
         ) : (
           <p>No image available</p>
         )}
-        <p>{post.realEstateDetails?.city}</p>
-        <p>{post.realEstateDetails?.address}</p>
-        <p>{post.realEstateDetails?.description}</p>
+
+        <div className="text-gray-700 space-y-2">
+        <p className="text-sm font-semibold"><strong>Location:</strong> {post.realEstateDetails?.location}, {post.realEstateDetails?.city}</p>
+        <p className="text-sm text-gray-500"><strong>Address:</strong> {post.realEstateDetails?.address}</p>
+        <p className="mt-2 text-gray-600"><strong>Description:</strong> {post.realEstateDetails?.description}</p>
+      </div>
       </div>
     </div>
   );

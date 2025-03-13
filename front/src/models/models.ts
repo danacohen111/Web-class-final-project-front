@@ -17,6 +17,7 @@ export interface IUser {
     description: string;
     area: string;
     location: string;
+    picture: string;
     _id: string;
   }
 
@@ -26,6 +27,6 @@ export interface IPost {
     user: string; 
     realestate: string; 
     sender?: IUser;
-    realEstateDetails?: IRealEstate; 
+    realEstateDetails?: IRealEstate;
   }
   

@@ -18,9 +18,6 @@ const PostService = {
             ? await RealEstateService.getById(post.realestate)
             : null;
 
-            console.log("userDetails", userDetails);
-            console.log("realEstateDetails", realEstateDetails);
-
           return {
             ...post,
             sender: userDetails ?? { username: "Unknown", imgUrl: "/default-avatar.png", _id: "" },

@@ -1,19 +1,10 @@
 import apiClient from './api-client';
-
-interface RealEstate {
-  city: string;
-  address: string;
-  owner: string;
-  description: string;
-  area: string;
-  location: string;
-  _id: string;
-}
+import { IRealEstate } from "../models/models";
 
 const RealEstateService = {
-  async getAll(): Promise<RealEstate[]> {
+  async getAll(): Promise<IRealEstate[]> {
     try {
-      const response = await apiClient.get<RealEstate[]>("/realestate");
+      const response = await apiClient.get<IRealEstate[]>("/realestate");
       return response.data;
     } catch (error) {
       console.error("Error fetching all real estate:", error);
@@ -21,9 +12,9 @@ const RealEstateService = {
     }
   },
 
-  async getById(id: string): Promise<RealEstate | null> {
+  async getById(id: string): Promise<IRealEstate | null> {
     return apiClient
-      .get<RealEstate>(`/realestate/${id}`)
+      .get<IRealEstate>(`/realestate/${id}`)
       .then((response) => response.data)
       .catch((error) => {
         console.error(`Error fetching real estate with ID ${id}:`, error);
