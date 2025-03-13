@@ -1,17 +1,6 @@
 import { CredentialResponse } from "@react-oauth/google";
 import apiClient from "./api-client";
-
-export interface IUser {
-  email: string;
-  username?: string;
-  password: string;
-  imgUrl?: string;
-  phoneNumber?: string;
-  fullName?: string;
-  _id?: string;
-  accessToken?: string;
-  refreshToken?: string;
-}
+import { IUser } from "../models/models"
 
 export const registerUser = (user: IUser) => {
   return new Promise<{ status: number; message: string }>((resolve, reject) => {
@@ -62,8 +51,9 @@ export const googleSignin = (credentialResponse: CredentialResponse) => {
   });
 };
 
-export const getUserById = async (): Promise<IUser> => {
-  const userId = localStorage.getItem("id");
+export const getUserById = async (id?: string): Promise<IUser> => {
+  const userId = id || localStorage.getItem("id");
+  if (!userId) throw new Error("User ID is missing");
   const response = await apiClient.get<IUser>(`/users/${userId}`);
   return response.data;
 };

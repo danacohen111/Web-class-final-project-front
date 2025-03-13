@@ -20,7 +20,7 @@ const Login = () => {
             };
             try {
                 await loginUser({ password: user.password, email: user.email });
-                navigate("/profile");
+                navigate("/posts");
             } catch (err: any) {
                 setError(err.message || "Login failed. Please try again.");
             }
@@ -33,7 +33,7 @@ const Login = () => {
         setError(null);
         try {
             await googleSignin(credentialResponse);
-            navigate("/profile");
+            navigate("/posts");
         } catch (err: any) {
             setError(err.message || "Google login failed. Please try again.");
         }

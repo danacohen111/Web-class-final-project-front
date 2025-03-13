@@ -4,6 +4,7 @@ import Login from "./components/login/loginForm";
 import Profile from "./components/profile/profile";
 import AIRecommendations from "./components/recommendations/AiRecommendations";
 import AppMenu from "./components/menu/appMenu";
+import Posts from './components/posts/RealEstatePost';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/ai-recommendations" element={<AIRecommendations />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/posts" element={<Posts />} />
       </Routes>
     </div>
   );
