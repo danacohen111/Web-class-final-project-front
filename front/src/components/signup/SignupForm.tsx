@@ -25,7 +25,6 @@ const SignupForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [imgSrc, setImgSrc] = useState<File | null>(null);
-  const [imgUrl, setImgUrl] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -63,7 +62,6 @@ const SignupForm = () => {
       confirmPassword: "",
     });
     setImgSrc(null);
-    setImgUrl("");
   };
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -99,27 +97,28 @@ const SignupForm = () => {
     }
 
     try {
-      const url = await uploadPhoto(imgSrc);
-      setImgUrl(url);
+      if (imgSrc) {
+        const url = await uploadPhoto(imgSrc);
 
-      const user: IUser = {
-        username: formData.username,
-        fullName: formData.fullName,
-        email: formData.email,
-        password: formData.password,
-        imgUrl: url,
-        phoneNumber: formData.phoneNumber
-      };
-      const response = await registerUser(user);
+        const user: IUser = {
+          username: formData.username,
+          fullName: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+          imgUrl: url,
+          phoneNumber: formData.phoneNumber
+        };
+        const response = await registerUser(user);
 
-      if (response.status === 200 && !hasErrors) {
-        setSuccess(response.message || "Registration successful! You can now sign in.");
-        setError(null);
-        resetForm();
-        navigate("/ai-recommendations");
-      } else {
-        setError(response.message || "Registration failed. Please try again.");
-        setSuccess(null);
+        if (response.status === 200 && !hasErrors) {
+          setSuccess(response.message || "Registration successful! You can now sign in.");
+          setError(null);
+          resetForm();
+          navigate("/ai-recommendations");
+        } else {
+          setError(response.message || "Registration failed. Please try again.");
+          setSuccess(null);
+        }
       }
     } catch (error) {
       console.error("Registration failed:", error);

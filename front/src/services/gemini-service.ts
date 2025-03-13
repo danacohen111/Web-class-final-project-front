@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GEMINI_API_KEY } from '../config';
+import { config } from '../config.ts';
 
 const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
@@ -11,7 +11,7 @@ const GeminiService = {
       )}, return the best realestate according to the user's wishes and the reasons in a friendly paragraph as if you are a realestate agent`;
 
       const response = await axios.post(
-        `${API_URL}?key=${GEMINI_API_KEY}`,
+        `${API_URL}?key=${config.GEMINI_API_KEY}`,
         {
           contents: [
             {

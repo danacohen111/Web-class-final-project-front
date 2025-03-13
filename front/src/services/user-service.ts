@@ -7,7 +7,7 @@ export const registerUser = (user: IUser) => {
     apiClient
       .post("/auth/register", user)
       .then(async (response) => {
-        const loginResponse = await loginUser({ password: user.password, email: user.email });
+        await loginUser({ password: user.password, email: user.email });
         resolve({ status: response.status, message: response.data.message });
       })
       .catch((error) => {

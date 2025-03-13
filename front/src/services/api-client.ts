@@ -1,8 +1,9 @@
 import axios, { CanceledError } from "axios";
+import { config } from "../config.ts";
 
 export { CanceledError }
 const apiClient = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: config.BASE_URL,
 });
 
 export default apiClient;

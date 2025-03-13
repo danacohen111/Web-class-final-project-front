@@ -4,6 +4,7 @@ import Login from "./components/login/loginForm";
 import Profile from "./components/profile/profile";
 import AIRecommendations from "./components/recommendations/AiRecommendations";
 import AppMenu from "./components/menu/appMenu";
+import SignupForm from "./components/signup/SignupForm";
 import Posts from './components/posts/RealEstatePost';
 
 const App: React.FC = () => {
@@ -11,12 +12,13 @@ const App: React.FC = () => {
 
   return (
     <div>
-      {location.pathname !== "/login" && <AppMenu />}
+      {location.pathname !== "/login" && location.pathname !== "/signup" && <AppMenu />}
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/ai-recommendations" element={<AIRecommendations />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignupForm />} />
         <Route path="/posts" element={<Posts />} />
       </Routes>
     </div>
