@@ -13,6 +13,7 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [realEstate, setRealEstate] = useState<IRealEstate | null>(null);
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     const fetchUserAndRealEstate = async () => {
@@ -32,8 +33,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const username = user?.username || (user?.email ? user.email.split("@")[0] : "Unknown User");
   const imgUrl = user?.imgUrl
   const realEstateImgUrl = realEstate?.picture || "";
-
-  const [showComments, setShowComments] = useState(false);
 
   return (
     <div className="post">
@@ -59,6 +58,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
           <p className="mt-2 text-gray-600"><strong>Description:</strong> {realEstate?.description}</p>
         </div>
       </div>
+      <button className="comment-btn" onClick={() => setShowComments(!showComments)}>
+        {showComments ? "Hide Comments" : "Show Comments"}
+      </button>
+      <div className={`comments-container ${showComments ? "visible" : ""}`}>
+      {showComments && post._id && post.user && <Comments postId={post._id} userId={post.user} />}
+    </div>
     </div>
   );
 };
