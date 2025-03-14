@@ -30,11 +30,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
         <p className="mt-2 text-gray-600"><strong>Description:</strong> {post.realEstateDetails?.description}</p>
       </div>
       </div>
-
-      <button className="toggle-comments" onClick={() => setShowComments(!showComments)}>
+      <button className="comment-btn" onClick={() => setShowComments(!showComments)}>
         {showComments ? "Hide Comments" : "Show Comments"}
       </button>
-      {showComments && <Comments postId={post._id} userId={post.user} />}
+      <div className={`comments-container ${showComments ? "visible" : ""}`}>
+      {showComments && <Comments postId={post._id} userId={post.user._id} />}
+    </div>
     </div>
   );
 };

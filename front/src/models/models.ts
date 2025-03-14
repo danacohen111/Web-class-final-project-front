@@ -1,7 +1,7 @@
 export interface IUser {
-    email: string;
+    email?: string;
     username?: string;
-    password: string;
+    password?: string;
     imgUrl?: string;
     phoneNumber?: string;
     fullName?: string;
@@ -28,6 +28,7 @@ export interface IPost {
     realestate: string; 
     sender?: IUser;
     realEstateDetails?: IRealEstate;
+    isExpended: boolean;
   }
   
   export interface IComment {
@@ -37,5 +38,6 @@ export interface IPost {
     post: string;
     createdAt: string;
     updatedAt: string;
+    userDetails?: IUser;
   }
   
