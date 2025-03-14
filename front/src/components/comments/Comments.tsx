@@ -13,13 +13,12 @@ const Comments: React.FC<CommentsProps> = ({ postId, userId }) => {
   const [comments, setComments] = useState<IComment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<{ username: string; imgUrl: string }>({ username: "Unknown", imgUrl: "/default-avatar.png" });
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const fetchedComments = await CommentService.getCommentsByPost(postId);
-        console.log(postId);
-        console.log(fetchedComments);
 
         const commentsWithUsers = await Promise.all(
           fetchedComments.map(async (comment) => {
@@ -27,7 +26,7 @@ const Comments: React.FC<CommentsProps> = ({ postId, userId }) => {
             return {
               ...comment,
               userDetails: userDetails
-                ? { username: userDetails.username ? userDetails.username : (userDetails.email?.split("@")[0] ?? "Unknown"), imgUrl: userDetails.imgUrl }
+                ? { username: userDetails.username || userDetails.email?.split("@")[0], imgUrl: userDetails.imgUrl }
                 : { username: "Unknown", imgUrl: "/default-avatar.png" },
             };
           })
@@ -40,8 +39,21 @@ const Comments: React.FC<CommentsProps> = ({ postId, userId }) => {
         setLoading(false);
       }
     };
+    const fetchCurrentUser = async () => {
+      try {
+        const userDetails = await getUserById();
+        setCurrentUser(userDetails
+          ? { username: userDetails.username || userDetails.email?.split("@")[0] || "Unknown", imgUrl: userDetails.imgUrl || "/default-avatar.png" }
+          : { username: "Unknown", imgUrl: "/default-avatar.png" }
+        );
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
     fetchComments();
-  }, [postId]);
+    fetchCurrentUser();
+  }, [postId, userId]);
 
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
@@ -72,15 +84,18 @@ const Comments: React.FC<CommentsProps> = ({ postId, userId }) => {
         <div key={comment._id} className="comment">
           <img src={comment.userDetails?.imgUrl || "/default-avatar.png"} alt="User" />
           <div className="comment-content">
-            <span className="comment-username">{comment.userDetails?.username || "Unknown"}</span>
+            <span className="comment-username">{comment.userDetails?.username || comment.userDetails?.email?.split("@")[0]}</span>
             <span className="comment-text">{comment.content}</span>
           </div>
         </div>
       ))}
 
       <div className="add-comment">
-        <img src="/default-avatar.png" alt="User" className="user-img" />
-        <input
+        <div className="add-comment-header">
+      <img src={currentUser.imgUrl} alt="User" className="user-img" />
+      <p className="comment-username">{currentUser?.username || "Unknown"}</p>
+      </div>
+      <input
           type="text"
           placeholder="Add a comment..."
           value={newComment}

@@ -28,7 +28,6 @@ export interface IPost {
     realestate: string; 
     sender?: IUser;
     realEstateDetails?: IRealEstate;
-    isExpended: boolean;
   }
   
   export interface IComment {

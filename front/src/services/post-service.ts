@@ -12,8 +12,6 @@ const PostService = {
       posts.map(async (post) => {
         try {
           const userDetails: IUser | null = post.user ? await getUserById(post.user) : null;
-
-          console.log(post.realestate);
           const realEstateDetails: IRealEstate | null = post.realestate
             ? await RealEstateService.getById(post.realestate)
             : null;
