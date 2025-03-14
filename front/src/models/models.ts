@@ -18,16 +18,18 @@ export interface IUser {
     area: string;
     location: string;
     picture: string;
-    _id: string;
+    _id?: string;
   }
 
   
 export interface IPost {
-    _id: string;
+    _id?: string;
     user: string; 
     realestate: string; 
     sender?: IUser;
     realEstateDetails?: IRealEstate;
+    title?: string;  
+    content?: string;
   }
   
   export interface IComment {

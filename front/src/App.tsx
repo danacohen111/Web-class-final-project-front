@@ -6,6 +6,7 @@ import AIRecommendations from "./components/recommendations/AiRecommendations";
 import AppMenu from "./components/menu/appMenu";
 import SignupForm from "./components/signup/SignupForm";
 import Posts from './components/posts/RealEstatePost';
+import AddPostPage from "./components/posts/AddPost";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -20,6 +21,7 @@ const App: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/posts" element={<Posts />} />
+        <Route path="/addPost" element={<AddPostPage />} />
       </Routes>
     </div>
   );
