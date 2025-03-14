@@ -42,4 +42,14 @@ const PostService = {
   },
 };
 
+export const createPost = async (postData: IPost) => {
+  try {
+    const response = await apiClient.post<IPost>('/posts', postData);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating post:', error);
+    throw error;
+  }
+};
+
 export default PostService;

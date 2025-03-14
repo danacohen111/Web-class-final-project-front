@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, ChangeEvent } from "react";
-import { registerUser, IUser } from "./../../services/user-service";
+import { registerUser } from "./../../services/user-service";
+import { IUser } from "../../models/models";
 import { uploadPhoto } from "./../../services/file-service";
 import "./../../styles/signup.css";
 import logo from '../../../public/logo.png';

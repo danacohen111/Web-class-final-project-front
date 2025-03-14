@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Brain, User, LogOut, Menu, MessageSquare } from "lucide-react";
+import { Brain, User,PlusCircle, LogOut, Menu, MessageSquare } from "lucide-react";
 import "./../../styles/AppMenu.css";
 
 const pages = [
   { name: "AI", path: "/ai-recommendations", icon: <Brain size={24} /> },
   { name: "Posts", path: "/posts", icon: <MessageSquare size={24} /> },
   { name: "Profile", path: "/profile", icon: <User size={24} /> },
+  { name: "AddPost", path: "/addPost", icon: <PlusCircle size={24} /> },
   { name: "Logout", path: "/login", icon: <LogOut size={24} /> }
 ];
 
