@@ -30,3 +30,12 @@ export interface IPost {
     realEstateDetails?: IRealEstate;
   }
   
+  export interface IComment {
+    _id: string;
+    content: string;
+    user: string;
+    post: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+  

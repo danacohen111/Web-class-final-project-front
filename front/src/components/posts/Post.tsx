@@ -1,12 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import { IPost } from "../../services/post-service";
 import "../../styles/post.css";
+import Comments from "../comments/Comments";
 
 interface PostProps {
   post: IPost;
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
+  const [showComments, setShowComments] = useState(false);
+
   return (
     <div className="post">
       <div className="post-header">
@@ -27,6 +30,11 @@ const Post: React.FC<PostProps> = ({ post }) => {
         <p className="mt-2 text-gray-600"><strong>Description:</strong> {post.realEstateDetails?.description}</p>
       </div>
       </div>
+
+      <button className="toggle-comments" onClick={() => setShowComments(!showComments)}>
+        {showComments ? "Hide Comments" : "Show Comments"}
+      </button>
+      {showComments && <Comments postId={post._id} userId={post.user} />}
     </div>
   );
 };
