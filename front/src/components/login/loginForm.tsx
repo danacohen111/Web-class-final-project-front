@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
-import { loginUser, googleSignin, IUser } from "../../services/user-service";
+import { loginUser, googleSignin } from "../../services/user-service";
+import { IUser } from "../../models/models";
 import "./../../styles/login.css";
 import { useNavigate } from "react-router-dom";
 

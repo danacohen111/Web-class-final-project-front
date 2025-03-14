@@ -68,6 +68,10 @@ const AddPostPage: React.FC = () => {
       };
       const realEstate = await createRealEstate(realEstateData);
 
+      if (!realEstate._id) {
+        throw new Error("Failed to create real estate entry.");
+      }
+
       const postData: IPost = {
         title: formData.title,
         content: formData.content,

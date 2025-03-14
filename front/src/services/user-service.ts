@@ -1,11 +1,13 @@
 import { CredentialResponse } from "@react-oauth/google";
 import apiClient from "./api-client";
-import { IUser } from "../models/models"
+import { IUser } from "../models/models";
+import axios from "axios";
+import { config } from "../config.ts";
 
 export const registerUser = (user: IUser) => {
   return new Promise<{ status: number; message: string }>((resolve, reject) => {
-    apiClient
-      .post("/auth/register", user)
+    axios
+      .post<{ status: number; message: string }>(`${config.BASE_URL}/auth/register`, user)
       .then(async (response) => {
         await loginUser({ password: user.password, email: user.email });
         resolve({ status: response.status, message: response.data.message });
@@ -18,8 +20,8 @@ export const registerUser = (user: IUser) => {
 
 export const loginUser = (credentials: { password: string; email: string }) => {
   return new Promise<{ status: number; message: string; accessToken?: string; refreshToken?: string }>((resolve, reject) => {
-    apiClient
-      .post("/auth/login", credentials)
+    axios
+      .post<{ status: number; message: string; accessToken: string; refreshToken: string; _id: string }>(`${config.BASE_URL}/auth/login`, credentials)
       .then((response) => {
         const { accessToken, refreshToken, _id } = response.data;
         localStorage.setItem("accessToken", accessToken);
@@ -34,15 +36,15 @@ export const loginUser = (credentials: { password: string; email: string }) => {
 };
 
 export const googleSignin = (credentialResponse: CredentialResponse) => {
-  return new Promise<IUser>((resolve, reject) => {
-    apiClient
-      .post("/auth/google", credentialResponse)
+  return new Promise<{ status: number; message: string; accessToken?: string; refreshToken?: string }>((resolve, reject) => {
+    axios
+      .post<{ status: number; message: string; accessToken: string; refreshToken: string; _id: string }>(`${config.BASE_URL}/auth/google`, credentialResponse)
       .then((response) => {
         const { accessToken, refreshToken, _id } = response.data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("id", _id);
-        resolve(response.data);
+        resolve({ status: response.status, message: response.data.message, accessToken, refreshToken });
       })
       .catch((error) => {
         console.log(error);
@@ -61,7 +63,6 @@ export const getUserById = async (id?: string): Promise<IUser> => {
 export const updateUser = async (formData: FormData) => {
   try {
     const userId = localStorage.getItem("id");
-    const accessToken = localStorage.getItem("accessToken");
     const payload: any = {};
 
     if (formData.has("username")) {
@@ -71,12 +72,7 @@ export const updateUser = async (formData: FormData) => {
       payload.imgUrl = formData.get("image");
     }
 
-    const response = await apiClient.put(`/users/${userId}`, payload, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `JWT ${accessToken}`
-      },
-    });
+    const response = await apiClient.put(`/users/${userId}`, payload);
     return response.data;
   } catch (error) {
     console.error("Error updating user:", error);
