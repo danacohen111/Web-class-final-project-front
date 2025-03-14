@@ -20,10 +20,13 @@ const errorInterceptor = async (error: any) => {
     const refreshToken = localStorage.getItem('refreshToken');
     if (refreshToken) {
       try {
-        const response = await axios.post(config.BASE_URL, {
+        const response = await axios.post(`${config.BASE_URL}/auth/refresh`, {
           refreshToken,
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
-        console.log("refreshedddd")
         const { accessToken, refreshToken: newRefreshToken } = response.data;
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', newRefreshToken);
@@ -31,7 +34,7 @@ const errorInterceptor = async (error: any) => {
         return axios(originalRequest);
       } catch (refreshError) {
         console.error('Error refreshing token:', refreshError);
-        throw error 
+        throw error;
       }
     }
   }
