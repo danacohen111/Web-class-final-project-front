@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { getUserById, updateUser } from "../../services/user-service";
 import { uploadPhoto } from "../../services/file-service";
+import PostService from "../../services/post-service";
 import AppMenu from "../menu/appMenu";
+import PostList from "../posts/PostList";
 import { User as UserIcon } from "lucide-react";
 import "./../../styles/profile.css";
 
@@ -21,6 +23,8 @@ const Profile: React.FC = () => {
   const [hasUsernameChanged, setHasUsernameChanged] = useState(false);
   const [hasImageChanged, setHasImageChanged] = useState(false);
 
+  const [userId, setUserId] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -30,6 +34,7 @@ const Profile: React.FC = () => {
         setPreview(user.imgUrl || null);
         setOriginalUsername(user.username || "");
         setOriginalPreview(user.imgUrl || null);
+        setUserId(user._id || localStorage.getItem("id"));
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -106,8 +111,15 @@ const Profile: React.FC = () => {
 
   const isUpdateDisabled = !hasUsernameChanged && !hasImageChanged;
 
+  const fetchUserPosts = async () => {
+    if (userId) {
+      return await PostService.getPostsByUser(userId);
+    }
+    return [];
+  };
+
   return (
-    <div className="profile-container">
+    <div className={`profile-container ${isEditing ? 'editing' : ''}`}>
       <AppMenu />
       <div className="profile-content">
         <h2 className="profile-title">{displayName}</h2>
@@ -172,6 +184,13 @@ const Profile: React.FC = () => {
         {successMessage && <p className="success-message">{successMessage}</p>}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
+
+      {!isEditing && (
+        <div className="user-posts">
+          <h3 className="posts-title">Your Posts</h3>
+          <PostList fetchPosts={fetchUserPosts} />
+        </div>
+      )}
     </div>
   );
 };

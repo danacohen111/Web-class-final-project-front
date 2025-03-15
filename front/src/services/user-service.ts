@@ -79,3 +79,31 @@ export const updateUser = async (formData: FormData) => {
     throw error;
   }
 };
+
+export const logoutUser = () => {
+  return new Promise<{ status: number; message: string }>((resolve, reject) => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (!refreshToken) {
+      reject({ status: 400, message: "Refresh token is missing" });
+      return;
+    }
+
+    axios
+      .post<{ status: number; message: string }>(
+        `${config.BASE_URL}/auth/logout`,
+        { refreshToken },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        localStorage.clear();
+        resolve({ status: response.status, message: response.data.message });
+      })
+      .catch((error) => {
+        reject({ status: error.response.status, message: error.response.data.message });
+      });
+  });
+};

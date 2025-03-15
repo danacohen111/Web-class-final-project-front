@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Brain, User,PlusCircle, LogOut, Menu, MessageSquare } from "lucide-react";
 import "./../../styles/AppMenu.css";
+import { logoutUser } from "../../services/user-service";
 
 const pages = [
   { name: "AI", path: "/ai-recommendations", icon: <Brain size={24} /> },
@@ -18,7 +19,7 @@ const AppMenu: React.FC = () => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = () => {
-    localStorage.clear();
+    logoutUser();
     navigate("/login");
   };
 

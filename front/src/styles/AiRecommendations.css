@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    background-color: #2ca597;
     color: #212529; 
     font-family: 'Montserrat', sans-serif;
   }
@@ -57,7 +56,7 @@
     border-radius: 10px;
     font-size: 18px; 
     resize: vertical;
-    background-color: #bce2e2; 
+    background-color: white; 
     color: #212529;
   }
   
