@@ -119,7 +119,7 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <div className="profile-container">
+    <div className={`profile-container ${isEditing ? 'editing' : ''}`}>
       <AppMenu />
       <div className="profile-content">
         <h2 className="profile-title">{displayName}</h2>
