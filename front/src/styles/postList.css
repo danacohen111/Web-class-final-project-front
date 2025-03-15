@@ -11,16 +11,3 @@
 .post-list::-webkit-scrollbar {
   display: none !important;
 }
-
-.post {
-  border: 1px solid #ccc;
-  border-radius: 15px; 
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; 
-}

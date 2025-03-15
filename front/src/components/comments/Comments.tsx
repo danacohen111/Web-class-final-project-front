@@ -6,10 +6,9 @@ import "../../styles/comments.css";
 
 interface CommentsProps {
   postId: string;
-  userId: string;
 }
 
-const Comments: React.FC<CommentsProps> = ({ postId, userId }) => {
+const Comments: React.FC<CommentsProps> = ({ postId }) => {
   const [comments, setComments] = useState<IComment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
@@ -53,14 +52,13 @@ const Comments: React.FC<CommentsProps> = ({ postId, userId }) => {
 
     fetchComments();
     fetchCurrentUser();
-  }, [postId, userId]);
+  }, [postId]);
 
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
     try {
-      const commentData = await CommentService.addComment(postId, userId, newComment);
-
-    const userDetails = await getUserById(userId);
+      const userDetails = await getUserById();
+      const commentData = await CommentService.addComment(postId, userDetails._id!, newComment);
 
     setComments([
       ...comments,
@@ -80,22 +78,23 @@ const Comments: React.FC<CommentsProps> = ({ postId, userId }) => {
 
   return (
     <div className="comments-section">
-      {comments.map((comment) => (
-        <div key={comment._id} className="comment">
-          <img src={comment.userDetails?.imgUrl || "/default-avatar.png"} alt="User" />
-          <div className="comment-content">
-            <span className="comment-username">{comment.userDetails?.username || comment.userDetails?.email?.split("@")[0]}</span>
-            <span className="comment-text">{comment.content}</span>
-          </div>
+        <div className="scrollable-comments">
+          {comments.map((comment) => (
+            <div key={comment._id} className="comment">
+              <img src={comment.userDetails?.imgUrl || "/default-avatar.png"} alt="User" />
+              <div className="comment-content">
+                <span className="comment-username">{comment.userDetails?.username || comment.userDetails?.email?.split("@")[0]}</span>
+                <span className="comment-text">{comment.content}</span>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-
       <div className="add-comment">
         <div className="add-comment-header">
-      <img src={currentUser.imgUrl} alt="User" className="user-img" />
-      <p className="comment-username">{currentUser?.username || "Unknown"}</p>
-      </div>
-      <input
+          <img src={currentUser.imgUrl} alt="User" className="user-img" />
+          <p className="comment-username">{currentUser?.username || "Unknown"}</p>
+        </div>
+        <input
           type="text"
           placeholder="Add a comment..."
           value={newComment}

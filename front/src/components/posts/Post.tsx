@@ -5,6 +5,7 @@ import RealEstateService from "../../services/realestate-service";
 import { User } from "lucide-react";
 import "../../styles/post.css";
 import Comments from "../comments/Comments";
+import skylineDefault from "../../assets/skyline-default.jpg";
 
 interface PostProps {
   post: IPost;
@@ -13,7 +14,6 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [realEstate, setRealEstate] = useState<IRealEstate | null>(null);
-  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     const fetchUserAndRealEstate = async () => {
@@ -31,39 +31,35 @@ const Post: React.FC<PostProps> = ({ post }) => {
   }, [post.user, post.realestate]);
 
   const username = user?.username || (user?.email ? user.email.split("@")[0] : "Unknown User");
-  const imgUrl = user?.imgUrl
+  const imgUrl = user?.imgUrl;
   const realEstateImgUrl = realEstate?.picture || "";
 
   return (
     <div className="post">
       <div className="post-header">
-      {imgUrl ? (
+        {imgUrl ? (
           <img src={imgUrl} alt="User" className="user-img" />
         ) : (
-          <User className="user-icon" />
+          <User className="user-img" />
         )}
         <span className="username">{username}</span>
       </div>
       
-      <div className="real-estate-info">
+      <div className="real-estate-img">
         {realEstateImgUrl ? (
-          <img src={realEstateImgUrl} alt="Real Estate Image" className="real-estate-img" />
+          <img src={realEstateImgUrl} alt="Real Estate Image" />
         ) : (
-          <p>No image available</p>
+          <img src={skylineDefault} alt="Default Image" />
         )}
-
-        <div className="text-gray-700 space-y-2">
+      </div>
+        <div className="description">
           <p className="text-sm font-semibold"><strong>Location:</strong> {realEstate?.location}, {realEstate?.city}</p>
           <p className="text-sm text-gray-500"><strong>Address:</strong> {realEstate?.address}</p>
           <p className="mt-2 text-gray-600"><strong>Description:</strong> {realEstate?.description}</p>
         </div>
+      <div className="comments-container visible">
+        {post._id && <Comments postId={post._id} />}
       </div>
-      <button className="comment-btn" onClick={() => setShowComments(!showComments)}>
-        {showComments ? "Hide Comments" : "Show Comments"}
-      </button>
-      <div className={`comments-container ${showComments ? "visible" : ""}`}>
-      {showComments && post._id && post.user && <Comments postId={post._id} userId={post.user} />}
-    </div>
     </div>
   );
 };
