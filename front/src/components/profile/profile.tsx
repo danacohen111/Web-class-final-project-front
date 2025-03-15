@@ -185,10 +185,12 @@ const Profile: React.FC = () => {
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
 
-      <div className="user-posts">
-        <h3 className="posts-title">Your Posts</h3>
-        <PostList fetchPosts={fetchUserPosts} />
-      </div>
+      {!isEditing && (
+        <div className="user-posts">
+          <h3 className="posts-title">Your Posts</h3>
+          <PostList fetchPosts={fetchUserPosts} />
+        </div>
+      )}
     </div>
   );
 };
