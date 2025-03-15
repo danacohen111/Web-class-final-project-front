@@ -2,16 +2,7 @@ import React, { useState } from 'react';
 import RealEstateService from '../../services/realestate-service';
 import GeminiService from '../../services/gemini-service';
 import './../../styles/AiRecommendations.css';
-
-interface RealEstate {
-  city: string;
-  address: string;
-  owner: string;
-  description: string;
-  area: string;
-  location: string;
-  _id: string;
-}
+import { IRealEstate } from '../../models/models';
 
 const AiRecommendations: React.FC = () => {
   const [dream, setDream] = useState<string>('');
@@ -23,7 +14,7 @@ const AiRecommendations: React.FC = () => {
     setError(null);
 
     try {
-      const allRealEstate: RealEstate[] = await RealEstateService.getAll();
+      const allRealEstate: IRealEstate[] = await RealEstateService.getAll();
       const response = await GeminiService.analyzeDream(dream, allRealEstate);
 
       if (!response) {
