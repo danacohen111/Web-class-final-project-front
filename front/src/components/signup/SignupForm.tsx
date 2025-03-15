@@ -115,7 +115,7 @@ const SignupForm = () => {
           setSuccess(response.message || "Registration successful! You can now sign in.");
           setError(null);
           resetForm();
-          navigate("/ai-recommendations");
+          navigate("/posts");
         } else {
           setError(response.message || "Registration failed. Please try again.");
           setSuccess(null);
