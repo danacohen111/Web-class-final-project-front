@@ -26,7 +26,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
               ...comment,
               userDetails: userDetails
                 ? { username: userDetails.username || userDetails.email?.split("@")[0], imgUrl: userDetails.imgUrl }
-                : { username: "Unknown", imgUrl: "/default-avatar.png" },
+                : { username: "Unknown", imgUrl: "../../assets/default-user-image.png" },
             };
           })
         );
@@ -43,7 +43,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
         const userDetails = await getUserById();
         setCurrentUser(userDetails
           ? { username: userDetails.username || userDetails.email?.split("@")[0] || "Unknown", imgUrl: userDetails.imgUrl || "/default-avatar.png" }
-          : { username: "Unknown", imgUrl: "/default-avatar.png" }
+          : { username: "Unknown", imgUrl: "../../assets/default-user-image.png" }
         );
       } catch (error) {
         console.error("Error fetching user details:", error);
@@ -53,6 +53,18 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
     fetchComments();
     fetchCurrentUser();
   }, [postId]);
+
+  const fetchCurrentUser = async () => {
+    try {
+      const userDetails = await getUserById();
+      setCurrentUser(userDetails
+        ? { ...userDetails, username: userDetails.username || userDetails.email?.split("@")[0] || "Unknown", imgUrl: userDetails.imgUrl || "/default-avatar.png" }
+        : { username: "Unknown", imgUrl: "../../assets/default-user-image.png" }
+      );
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
 
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
@@ -66,7 +78,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
         ...commentData,
         userDetails: userDetails
           ? { username: userDetails.username ?  userDetails.username : (userDetails.email?.split("@")[0] ?? "Unknown"), imgUrl: userDetails.imgUrl }
-          : { username: "Unknown", imgUrl: "/default-avatar.png" },
+          : { username: "Unknown", imgUrl: "../../assets/default-user-image.png" },
       },
     ]);
 
