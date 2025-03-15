@@ -27,7 +27,7 @@ const PostList: React.FC<PostListProps> = ({ fetchPosts }) => {
       {error && <p className="error">{error}</p>}
       {posts.length > 0 ? (
         posts.map((post) => ( 
-          <Post key={post._id} post={post} /> 
+          <Post key={post._id} post={post} />
         ))
       ) : (
         <p>No posts available.</p>

@@ -19,13 +19,13 @@
 }
 
 .post {
-  background: #f0faff;
+  background: #f0faffdd;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 100%;
-  max-width: 700px; /* Make posts wider */
-  min-height: 350px; /* Keep it square-like */
+  max-width: 700px; 
+  min-height: 350px; 
 }
 
