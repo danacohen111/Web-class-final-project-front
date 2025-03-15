@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IRealEstate, IPost, IUser } from "../../models/models";
 import { getUserById } from "../../services/user-service";
-import PostService from "../../services/post-service";
 import RealEstateService from "../../services/realestate-service";
 import { User, Pencil, Check, X } from "lucide-react";
 import "../../styles/post.css";
@@ -55,7 +54,6 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
 
     setLoading(true);
     try {
-      console.log("Updating post:", editableRealEstate);
       await RealEstateService.updateRealEstate(post.realestate, editableRealEstate!);
       setRealEstate({ ...realEstate, ...editableRealEstate });
       setIsInEditMode(false);

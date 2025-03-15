@@ -34,10 +34,7 @@ const RealEstateService = {
 
   async updateRealEstate(realEstateId: string, updatedData: Partial<IRealEstate>): Promise<IRealEstate> {
       try {
-        console.log("Updating real estate with ID:", realEstateId);
-        console.log("Updated data:", updatedData);
         const response = await apiClient.put<IRealEstate>(`/realestate/${realEstateId}`, updatedData);
-        console.log("Updated real estate:", response.data);
         return response.data;
       } catch (error) {
         console.error("Error updating real estate:", error);
