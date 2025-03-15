@@ -99,3 +99,24 @@
   color: red;
   margin-top: 16px;
 }
+
+.user-posts {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+.posts-title {
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-align: center; 
+}
+
+
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

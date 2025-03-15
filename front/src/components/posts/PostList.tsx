@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"; 
 import Post from "./Post";
-import { IPost } from "../../services/post-service";
+import { IPost } from "../../models/models";
 import "../../styles/postList.css";
 
 interface PostListProps {

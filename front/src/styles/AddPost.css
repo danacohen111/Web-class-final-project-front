@@ -1,6 +1,6 @@
 .add-post-container {
     background: url('/mnt/data/image.png') no-repeat center center/cover;
-    min-height: 100vh; /* Changed from height to min-height */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
