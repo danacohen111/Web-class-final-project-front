@@ -188,7 +188,7 @@ const Profile: React.FC = () => {
       {!isEditing && (
         <div className="user-posts">
           <h3 className="posts-title">Your Posts</h3>
-          <PostList fetchPosts={fetchUserPosts} />
+          <PostList fetchPosts={fetchUserPosts} isInProfilePage={true}/>
         </div>
       )}
     </div>

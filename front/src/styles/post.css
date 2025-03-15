@@ -33,6 +33,7 @@
   font-weight: bold;
   justify-content: flex-start;
   padding-left: 10px;
+  position: relative;
 }
 
 .username {
@@ -57,11 +58,48 @@ img {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 2px;
   margin-left: 10px;
   margin-top: 10px;
 }
 
 .description p {
   margin: 2px 0;
+}
+
+.post-input {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-left: 5px;
+  flex: 1;
+  min-width: fit-content;
+}
+
+.post-input.description {
+  width: 100%;
+  min-height: 10px;
+  resize: none;
+}
+
+.edit-icon, .cancel-icon {
+  right: 10px;
+  position: absolute;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease-in-out;
+}
+
+.save-icon {
+  right: 40px;
+  position: absolute;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease-in-out;
+}
+
+.edit-icon:hover {
+  color: #333;
 }
