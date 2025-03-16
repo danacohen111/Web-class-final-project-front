@@ -2,7 +2,7 @@ import { IRealEstate, IPost, IUser } from "../../models/models";
 import { getUserById } from "../../services/user-service";
 import RealEstateService from "../../services/realestate-service";
 import PostService from "../../services/post-service";
-import { User, Pencil, Check, X, Trash } from "lucide-react";
+import { User, Pencil, Check, X, Trash, Heart } from "lucide-react";
 import "../../styles/post.css";
 import Comments from "../comments/Comments";
 import skylineDefault from "../../assets/skyline-default.jpg";
@@ -18,11 +18,13 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [realEstate, setRealEstate] = useState<IRealEstate | null>(null);
+  const [currentUser, setCurrentUser] = useState<IUser | null>(null);
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [editableRealEstate, setEditableRealEstate] = useState<Partial<IRealEstate>>({});
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [originalRealEstateImgUrl, setOriginalRealEstateImgUrl] = useState<string>("");
+  const [likes, setLikes] = useState<string[]>(post.userLikes || []);
 
   useEffect(() => {
     const fetchUserAndRealEstate = async () => {
@@ -42,6 +44,8 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
         });
         setOriginalRealEstateImgUrl(fetchedRealEstate.picture || "");
       }
+      const fetchedCurrentUser = await getUserById(); 
+      setCurrentUser(fetchedCurrentUser);
     };
     fetchUserAndRealEstate();
   }, [post]);
@@ -110,6 +114,25 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
         alert("Failed to delete post.");
       }
   };
+
+  const handleLike = async () => {
+    try {
+      const currentUser = await getUserById();
+      if (!currentUser) return;
+  
+      const hasLiked = likes.includes(currentUser._id!);
+      const updatedLikes = hasLiked
+        ? likes.filter((id) => id !== currentUser._id)
+        : [...likes, currentUser._id!];
+  
+      setLikes(updatedLikes);
+  
+      const updatedPost: IPost = { ...post, userLikes: updatedLikes };
+      await PostService.updatePost(post._id!, updatedPost);
+    } catch (error) {
+      console.error("Error updating likes:", error);
+    }
+  };
   
   return (
     <div className="post">
@@ -151,6 +174,16 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
       />
     )}
   </div>
+
+      {!isInEditMode ? (
+            <div className="like-container" onClick={handleLike}>
+              <Heart className={`heart-icon ${currentUser && currentUser._id && likes.includes(currentUser._id) ? "liked" : ""}`} />
+              <span className="likes-count">{likes.length}</span>
+            </div>
+          ) : (
+            <></>
+          )}      
+
       <div className="description">
         {isInEditMode ? (
           <>

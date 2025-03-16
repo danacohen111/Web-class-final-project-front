@@ -53,6 +53,16 @@ const PostService = {
       console.error("Error deleting post:", error);
       throw error;
     }
+  },
+
+  async updatePost(postId: string, updatedPost: Partial<IPost>): Promise<IPost> {
+    try {
+      const response = await apiClient.put<IPost>(`/posts/${postId}`, updatedPost);
+      return response.data;
+    } catch (error) {
+      console.error("Error updating post:", error);
+      throw error;
+    }
   }
 };
 
