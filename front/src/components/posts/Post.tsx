@@ -6,6 +6,7 @@ import { User, Pencil, Check, X } from "lucide-react";
 import "../../styles/post.css";
 import Comments from "../comments/Comments";
 import skylineDefault from "../../assets/skyline-default.jpg";
+import { uploadPhoto } from "../../services/file-service";
 
 interface PostProps {
   post: IPost;
@@ -18,6 +19,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [editableRealEstate, setEditableRealEstate] = useState<Partial<IRealEstate>>({});
   const [loading, setLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUserAndRealEstate = async () => {
@@ -44,15 +46,29 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
   const username = user?.username || (user?.email ? user.email.split("@")[0] : "Unknown User");
   const imgUrl = user?.imgUrl;
   const realEstateImgUrl = realEstate?.picture || "";
-  const handleEditToggle = () => setIsInEditMode(!isInEditMode);
+  const handleEditToggle = () => {
+    if (isInEditMode) {
+      setEditableRealEstate(realEstate || {});
+      setSelectedImage(null);
+    }
+    setIsInEditMode(!isInEditMode);
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setEditableRealEstate({ ...editableRealEstate!, [e.target.name]: e.target.value });
   };
 
   const handleUpdate = async () => {
     if (!realEstate || !post.realestate) return;
-
+    
     setLoading(true);
+
+    let pictureUrl = "";
+    const fileInput = document.getElementById("picture") as HTMLInputElement;
+    if (fileInput && fileInput.files && fileInput.files[0]) {
+      pictureUrl = await uploadPhoto(fileInput.files[0]);
+    }
+    editableRealEstate.picture = pictureUrl;
+    
     try {
       await RealEstateService.updateRealEstate(post.realestate, editableRealEstate!);
       setRealEstate({ ...realEstate, ...editableRealEstate });
@@ -63,6 +79,23 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
       setLoading(false);
     }
   };
+
+  const handleImageClick = () => {
+    document.getElementById("picture")?.click();
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0] && isInEditMode) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        setSelectedImage(reader.result as string); 
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  };  
 
   return (
     <div className="post">
@@ -84,14 +117,24 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
           )
         )}      
       </div>
-      
-      <div className="real-estate-img">
-        {realEstateImgUrl ? (
-          <img src={realEstateImgUrl} alt="Real Estate Image" />
-        ) : (
-          <img src={skylineDefault} alt="Default Image" />
-        )}
-      </div>
+
+  <div className="real-estate-img">
+    <img
+      src={selectedImage || realEstateImgUrl || skylineDefault}
+      alt="Real Estate Image"
+      onClick={handleImageClick}
+      className={isInEditMode ? "clickable" : ""}
+    />
+    {isInEditMode && (
+      <input
+        type="file"
+        id="picture"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={handleImageChange}
+      />
+    )}
+  </div>
       <div className="description">
         {isInEditMode ? (
           <>
