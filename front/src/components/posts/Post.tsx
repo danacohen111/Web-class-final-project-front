@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { IRealEstate, IPost, IUser } from "../../models/models";
 import { getUserById } from "../../services/user-service";
 import RealEstateService from "../../services/realestate-service";
@@ -7,12 +6,11 @@ import "../../styles/post.css";
 import Comments from "../comments/Comments";
 import skylineDefault from "../../assets/skyline-default.jpg";
 import { uploadPhoto } from "../../services/file-service";
-
+import { useState, useEffect } from "react";
 interface PostProps {
   post: IPost;
   isInProfilePage: boolean;
 }
-
 const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [realEstate, setRealEstate] = useState<IRealEstate | null>(null);
@@ -20,7 +18,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
   const [editableRealEstate, setEditableRealEstate] = useState<Partial<IRealEstate>>({});
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
+  const [originalRealEstateImgUrl, setOriginalRealEstateImgUrl] = useState<string>("");
   useEffect(() => {
     const fetchUserAndRealEstate = async () => {
       if (post.user) {
@@ -37,18 +35,19 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
           address: fetchedRealEstate.address,
           description: fetchedRealEstate.description,
         });
+        setOriginalRealEstateImgUrl(fetchedRealEstate.picture || "");
       }
     };
-
     fetchUserAndRealEstate();
-  }, [post.user, post.realestate]);
-
+  }, [post]);
   const username = user?.username || (user?.email ? user.email.split("@")[0] : "Unknown User");
   const imgUrl = user?.imgUrl;
-  const realEstateImgUrl = realEstate?.picture || "";
+  const realEstateImgUrl = selectedImage || originalRealEstateImgUrl || skylineDefault;
   const handleEditToggle = () => {
     if (isInEditMode) {
       setEditableRealEstate(realEstate || {});
+      setSelectedImage(null);
+    } else {
       setSelectedImage(null);
     }
     setIsInEditMode(!isInEditMode);
@@ -56,22 +55,19 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setEditableRealEstate({ ...editableRealEstate!, [e.target.name]: e.target.value });
   };
-
   const handleUpdate = async () => {
     if (!realEstate || !post.realestate) return;
-    
     setLoading(true);
-
-    let pictureUrl = "";
+    let pictureUrl = originalRealEstateImgUrl; // Default to original URL
     const fileInput = document.getElementById("picture") as HTMLInputElement;
     if (fileInput && fileInput.files && fileInput.files[0]) {
       pictureUrl = await uploadPhoto(fileInput.files[0]);
     }
     editableRealEstate.picture = pictureUrl;
-    
     try {
       await RealEstateService.updateRealEstate(post.realestate, editableRealEstate!);
       setRealEstate({ ...realEstate, ...editableRealEstate });
+      setOriginalRealEstateImgUrl(pictureUrl); // Update original URL
       setIsInEditMode(false);
     } catch (error) {
       console.error("Error updating post:", error);
@@ -79,24 +75,19 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
       setLoading(false);
     }
   };
-
   const handleImageClick = () => {
     document.getElementById("picture")?.click();
   };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0] && isInEditMode) {
       const file = e.target.files[0];
       const reader = new FileReader();
-  
       reader.onloadend = () => {
-        setSelectedImage(reader.result as string); 
+        setSelectedImage(reader.result as string);
       };
-  
       reader.readAsDataURL(file);
     }
-  };  
-
+  };
   return (
     <div className="post">
       <div className="post-header">
@@ -117,7 +108,6 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
           )
         )}      
       </div>
-
   <div className="real-estate-img">
     <img
       src={selectedImage || realEstateImgUrl || skylineDefault}
@@ -155,7 +145,6 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
           </>
         )}
       </div>
-
       {!isInEditMode ? (
             <div className="comments-container visible">
               {post._id && <Comments postId={post._id} />}
@@ -167,5 +156,4 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
     </div>
   );
 };
-
 export default Post;
