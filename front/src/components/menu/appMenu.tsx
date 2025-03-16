@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Brain, User,PlusCircle, LogOut, Menu, MessageSquare } from "lucide-react";
+import { Brain, User, PlusCircle, LogOut, Menu, MessageSquare } from "lucide-react";
 import "./../../styles/AppMenu.css";
 import { logoutUser } from "../../services/user-service";
 
@@ -37,36 +37,38 @@ const AppMenu: React.FC = () => {
   }, []);
 
   return (
-    <div className="app-menu" ref={menuRef}>
-      <Menu
-        size={24}
-        className="menu-icon"
-        onClick={() => setShowMenu(!showMenu)}
-      />
+    <div className="app-menu-container">
+      <div className="app-menu" ref={menuRef}>
+        <Menu
+          size={24}
+          className="menu-icon"
+          onClick={() => setShowMenu(!showMenu)}
+        />
 
-      {showMenu && (
-        <div className="menu-dropdown">
-          {pages.map((page) => (
-            <div
-              key={page.path}
-              className="menu-item"
-              onMouseEnter={() => setHoveredPage(page.name)}
-              onMouseLeave={() => setHoveredPage(null)}
-              onClick={() => {
-                if (page.name === "Logout") {
-                  handleLogout();
-                } else {
-                  navigate(page.path);
-                  setShowMenu(false);
-                }
-              }}
-            >
-              {page.icon}
-              {hoveredPage === page.name && <span className="menu-text">{page.name}</span>}
-            </div>
-          ))}
-        </div>
-      )}
+        {showMenu && (
+          <div className="menu-dropdown">
+            {pages.map((page) => (
+              <div
+                key={page.path}
+                className="menu-item"
+                onMouseEnter={() => setHoveredPage(page.name)}
+                onMouseLeave={() => setHoveredPage(null)}
+                onClick={() => {
+                  if (page.name === "Logout") {
+                    handleLogout();
+                  } else {
+                    navigate(page.path);
+                    setShowMenu(false);
+                  }
+                }}
+              >
+                {page.icon}
+                {hoveredPage === page.name && <span className="menu-text">{page.name}</span>}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
