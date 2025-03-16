@@ -37,7 +37,7 @@ const PostList: React.FC<PostListProps> = ({ fetchPosts, isInProfilePage, onDele
       <div className="post-list">
         {error && <p className="error">{error}</p>}
         {selectedPosts.length > 0 ? (
-          selectedPosts.map((post) => <Post key={post._id} post={post} isInProfilePage={isInProfilePage}/>)
+          selectedPosts.map((post) => <Post key={post._id} post={post} isInProfilePage={isInProfilePage} onDelete={onDelete}/>)
         ) : (
           <p>No posts available.</p>
         )}
