@@ -30,6 +30,7 @@ export interface IPost {
     realEstateDetails?: IRealEstate;
     title?: string;  
     content?: string;
+    userLikes?: string[];
   }
   
   export interface IComment {
