@@ -14,7 +14,7 @@ const PostList: React.FC<PostListProps> = ({ fetchPosts, isInProfilePage }) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 3;
+  const postsPerPage = isInProfilePage ? 2 : 3; 
 
   useEffect(() => {
     if (!fetchPosts) return;
