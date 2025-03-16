@@ -175,10 +175,16 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
     )}
   </div>
 
-      <div className="like-container" onClick={handleLike}>
-        <Heart className={`heart-icon ${currentUser && currentUser._id && likes.includes(currentUser._id) ? "liked" : ""}`} />
-        <span className="likes-count">{likes.length}</span>
-      </div>
+      {isInProfilePage && (
+          isInEditMode ? (
+            <></>
+          ) : (
+            <div className="like-container" onClick={handleLike}>
+              <Heart className={`heart-icon ${currentUser && currentUser._id && likes.includes(currentUser._id) ? "liked" : ""}`} />
+              <span className="likes-count">{likes.length}</span>
+            </div>
+          )
+        )}      
 
       <div className="description">
         {isInEditMode ? (
