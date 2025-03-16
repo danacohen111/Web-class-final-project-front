@@ -11,3 +11,9 @@
 .post-list::-webkit-scrollbar {
   display: none !important;
 }
+
+.pagination-wrapper {
+  margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+}
