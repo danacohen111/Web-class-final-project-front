@@ -1,7 +1,7 @@
 import { IRealEstate, IPost, IUser } from "../../models/models";
 import { getUserById } from "../../services/user-service";
 import RealEstateService from "../../services/realestate-service";
-import { deletePost } from "../../services/post-service";
+import PostService from "../../services/post-service";
 import { User, Pencil, Check, X, Trash } from "lucide-react";
 import "../../styles/post.css";
 import Comments from "../comments/Comments";
@@ -101,7 +101,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this post?");
     if (confirmDelete) {
       try {
-        await deletePost(post._id);
+        await PostService.deletePost(post._id!);
       } catch (error) {
         console.error("Error deleting post:", error);
       }

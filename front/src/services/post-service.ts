@@ -45,6 +45,15 @@ const PostService = {
     const posts = response.data;
     return await fetchPostsWithDetails(posts);
   },
+
+  async deletePost(postId: string): Promise<void> {
+    try {
+      await apiClient.delete(`/posts/${postId}`);
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      throw error;
+    }
+  }
 };
 
 export const createPost = async (postData: IPost) => {
