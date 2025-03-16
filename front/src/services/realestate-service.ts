@@ -31,6 +31,16 @@ const RealEstateService = {
       throw error;
     }
   },
+
+  async updateRealEstate(realEstateId: string, updatedData: Partial<IRealEstate>): Promise<IRealEstate> {
+      try {
+        const response = await apiClient.put<IRealEstate>(`/realestate/${realEstateId}`, updatedData);
+        return response.data;
+      } catch (error) {
+        console.error("Error updating real estate:", error);
+        throw error;
+      }
+    },
 };
 
 export default RealEstateService;

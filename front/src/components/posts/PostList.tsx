@@ -7,9 +7,10 @@ import "../../styles/Pagination.css";
 
 interface PostListProps {
   fetchPosts: () => Promise<IPost[]>;
+  isInProfilePage: boolean;
 }
 
-const PostList: React.FC<PostListProps> = ({ fetchPosts }) => {
+const PostList: React.FC<PostListProps> = ({ fetchPosts, isInProfilePage }) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,7 +36,7 @@ const PostList: React.FC<PostListProps> = ({ fetchPosts }) => {
       <div className="post-list">
         {error && <p className="error">{error}</p>}
         {selectedPosts.length > 0 ? (
-          selectedPosts.map((post) => <Post key={post._id} post={post} />)
+          selectedPosts.map((post) => <Post key={post._id} post={post} isInProfilePage={isInProfilePage}/>)
         ) : (
           <p>No posts available.</p>
         )}
