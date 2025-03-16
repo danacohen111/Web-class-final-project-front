@@ -8,11 +8,14 @@ import Comments from "../comments/Comments";
 import skylineDefault from "../../assets/skyline-default.jpg";
 import { uploadPhoto } from "../../services/file-service";
 import { useState, useEffect } from "react";
+
 interface PostProps {
   post: IPost;
   isInProfilePage: boolean;
+  onDelete: (postId: string) => void;
 }
-const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
+
+const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [realEstate, setRealEstate] = useState<IRealEstate | null>(null);
   const [isInEditMode, setIsInEditMode] = useState(false);
@@ -20,7 +23,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [originalRealEstateImgUrl, setOriginalRealEstateImgUrl] = useState<string>("");
-  
+
   useEffect(() => {
     const fetchUserAndRealEstate = async () => {
       if (post.user) {
@@ -56,11 +59,11 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
     }
     setIsInEditMode(!isInEditMode);
   };
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setEditableRealEstate({ ...editableRealEstate!, [e.target.name]: e.target.value });
   };
-
+  
   const handleUpdate = async () => {
     if (!realEstate || !post.realestate) return;
     setLoading(true);
@@ -81,11 +84,11 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
       setLoading(false);
     }
   };
-
+  
   const handleImageClick = () => {
     document.getElementById("picture")?.click();
   };
-
+  
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0] && isInEditMode) {
       const file = e.target.files[0];
@@ -98,16 +101,16 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
   };
 
   const handleDelete = async () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
-    if (confirmDelete) {
       try {
         await PostService.deletePost(post._id!);
+        onDelete(post._id!);
+        alert("Post deleted successfully!");
       } catch (error) {
         console.error("Error deleting post:", error);
+        alert("Failed to delete post.");
       }
-    }
   };
-
+  
   return (
     <div className="post">
       <div className="post-header">

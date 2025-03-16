@@ -6,9 +6,10 @@ import "../../styles/postList.css";
 interface PostListProps {
   fetchPosts: () => Promise<IPost[]>;
   isInProfilePage: boolean;
+  onDelete: (postId: string) => void;
 }
 
-const PostList: React.FC<PostListProps> = ({ fetchPosts, isInProfilePage }) => {
+const PostList: React.FC<PostListProps> = ({ fetchPosts, isInProfilePage, onDelete }) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,7 +29,7 @@ const PostList: React.FC<PostListProps> = ({ fetchPosts, isInProfilePage }) => {
       {error && <p className="error">{error}</p>}
       {posts.length > 0 ? (
         posts.map((post) => ( 
-          <Post key={post._id} post={post} isInProfilePage={isInProfilePage} />
+          <Post key={post._id} post={post} isInProfilePage={isInProfilePage} onDelete={onDelete} />
         ))
       ) : (
         <p>No posts available.</p>
