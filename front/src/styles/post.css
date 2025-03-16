@@ -84,7 +84,7 @@ img {
   resize: none;
 }
 
-.edit-icon, .cancel-icon {
+.edit-icon, .save-icon {
   right: 10px;
   position: absolute;
   cursor: pointer;
@@ -92,7 +92,7 @@ img {
   transition: color 0.2s ease-in-out;
 }
 
-.save-icon {
+.cancel-icon {
   right: 40px;
   position: absolute;
   cursor: pointer;
@@ -102,4 +102,16 @@ img {
 
 .edit-icon:hover {
   color: #333;
+}
+
+.delete-icon {
+  right: 40px;
+  position: absolute;
+  cursor: pointer;
+  color: #c0392b;
+  transition: color 0.2s ease-in-out;
+}
+
+.delete-icon:hover {
+  color: #e74c3c;
 }

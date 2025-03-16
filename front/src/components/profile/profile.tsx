@@ -6,6 +6,7 @@ import AppMenu from "../menu/appMenu";
 import PostList from "../posts/PostList";
 import { User as UserIcon } from "lucide-react";
 import "./../../styles/profile.css";
+import { IPost } from "../../models/models";
 
 const Profile: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -24,6 +25,7 @@ const Profile: React.FC = () => {
   const [hasImageChanged, setHasImageChanged] = useState(false);
 
   const [userId, setUserId] = useState<string | null>(null);
+  const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -118,6 +120,10 @@ const Profile: React.FC = () => {
     return [];
   };
 
+  const handleDeletePost = (postId: string) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+  };
+
   return (
     <div className={`profile-container ${isEditing ? 'editing' : ''}`}>
       <AppMenu />
@@ -188,7 +194,7 @@ const Profile: React.FC = () => {
       {!isEditing && (
         <div className="user-posts">
           <h3 className="posts-title">Your Posts</h3>
-          <PostList fetchPosts={fetchUserPosts} isInProfilePage={true}/>
+          <PostList fetchPosts={fetchUserPosts} isInProfilePage={true} onDelete={handleDeletePost}/>
         </div>
       )}
     </div>
