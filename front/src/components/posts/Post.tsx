@@ -1,7 +1,8 @@
 import { IRealEstate, IPost, IUser } from "../../models/models";
 import { getUserById } from "../../services/user-service";
 import RealEstateService from "../../services/realestate-service";
-import { User, Pencil, Check, X } from "lucide-react";
+import { deletePost } from "../../services/post-service";
+import { User, Pencil, Check, X, Trash } from "lucide-react";
 import "../../styles/post.css";
 import Comments from "../comments/Comments";
 import skylineDefault from "../../assets/skyline-default.jpg";
@@ -19,6 +20,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [originalRealEstateImgUrl, setOriginalRealEstateImgUrl] = useState<string>("");
+  
   useEffect(() => {
     const fetchUserAndRealEstate = async () => {
       if (post.user) {
@@ -40,9 +42,11 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
     };
     fetchUserAndRealEstate();
   }, [post]);
+
   const username = user?.username || (user?.email ? user.email.split("@")[0] : "Unknown User");
   const imgUrl = user?.imgUrl;
   const realEstateImgUrl = selectedImage || originalRealEstateImgUrl || skylineDefault;
+  
   const handleEditToggle = () => {
     if (isInEditMode) {
       setEditableRealEstate(realEstate || {});
@@ -52,9 +56,11 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
     }
     setIsInEditMode(!isInEditMode);
   };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setEditableRealEstate({ ...editableRealEstate!, [e.target.name]: e.target.value });
   };
+
   const handleUpdate = async () => {
     if (!realEstate || !post.realestate) return;
     setLoading(true);
@@ -75,9 +81,11 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
       setLoading(false);
     }
   };
+
   const handleImageClick = () => {
     document.getElementById("picture")?.click();
   };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0] && isInEditMode) {
       const file = e.target.files[0];
@@ -88,6 +96,18 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
       reader.readAsDataURL(file);
     }
   };
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+    if (confirmDelete) {
+      try {
+        await deletePost(post._id);
+      } catch (error) {
+        console.error("Error deleting post:", error);
+      }
+    }
+  };
+
   return (
     <div className="post">
       <div className="post-header">
@@ -104,7 +124,10 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage }) => {
               <X className="cancel-icon" onClick={handleEditToggle} />
             </div>
           ) : (
+            <>
             <Pencil className="edit-icon" onClick={handleEditToggle} />
+            <Trash className="delete-icon" onClick={handleDelete} />
+            </>
           )
         )}      
       </div>
