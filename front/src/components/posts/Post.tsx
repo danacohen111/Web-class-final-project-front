@@ -175,8 +175,8 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
     )}
   </div>
 
-      {isInProfilePage && (
-          isInEditMode ? (
+      {!isInProfilePage && (
+          !isInEditMode ? (
             <></>
           ) : (
             <div className="like-container" onClick={handleLike}>
