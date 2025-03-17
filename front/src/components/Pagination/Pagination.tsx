@@ -1,6 +1,6 @@
 import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import "../../styles/pagination.css"; 
+import "../../styles/Pagination.css"; 
 
 interface PaginationProps {
   currentPage: number;
