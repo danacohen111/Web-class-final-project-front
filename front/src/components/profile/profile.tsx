@@ -23,7 +23,6 @@ const Profile: React.FC = () => {
   const [hasImageChanged, setHasImageChanged] = useState(false);
 
   const [userId, setUserId] = useState<string | null>(null);
-  const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
