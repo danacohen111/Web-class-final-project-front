@@ -8,14 +8,15 @@ import Comments from "../comments/Comments";
 import skylineDefault from "../../assets/skyline-default.jpg";
 import { uploadPhoto } from "../../services/file-service";
 import { useState, useEffect } from "react";
+import { on } from "events";
 
 interface PostProps {
   post: IPost;
   isInProfilePage: boolean;
-  onDelete: (postId: string) => void;
-}
+  onUpdate: () => void;
+  onDelete: (postId: string) => void;}
 
-const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
+const Post: React.FC<PostProps> = ({ post, isInProfilePage, onUpdate, onDelete }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [realEstate, setRealEstate] = useState<IRealEstate | null>(null);
   const [currentUser, setCurrentUser] = useState<IUser | null>(null);
@@ -80,6 +81,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
       setRealEstate({ ...realEstate, ...editableRealEstate });
       setOriginalRealEstateImgUrl(pictureUrl);
       setIsInEditMode(false);
+      onUpdate();
     } catch (error) {
       console.error("Error updating post:", error);
     }
@@ -125,6 +127,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
   
       const updatedPost: IPost = { ...post, userLikes: updatedLikes };
       await PostService.updatePost(post._id!, updatedPost);
+      onUpdate();
     } catch (error) {
       console.error("Error updating likes:", error);
     }
