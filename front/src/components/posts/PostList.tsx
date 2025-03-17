@@ -56,7 +56,6 @@ const PostList: React.FC<PostListProps> = ({ fetchPosts, isInProfilePage }) => {
               key={post._id}
               post={post}
               isInProfilePage={isInProfilePage}
-              onUpdate={refreshPosts}
               onDelete={handleDelete}
             />
           ))

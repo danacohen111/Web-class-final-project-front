@@ -12,11 +12,10 @@ import { useState, useEffect } from "react";
 interface PostProps {
   post: IPost;
   isInProfilePage: boolean;
-  onUpdate: () => void;
   onDelete: (postId: string) => void;
 }
 
-const Post: React.FC<PostProps> = ({ post, isInProfilePage, onUpdate, onDelete }) => {
+const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [realEstate, setRealEstate] = useState<IRealEstate | null>(null);
   const [currentUser, setCurrentUser] = useState<IUser | null>(null);
@@ -88,7 +87,6 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onUpdate, onDelete }
       setRealEstate({ ...realEstate, ...editableRealEstate });
       setOriginalRealEstateImgUrl(pictureUrl);
       setIsInEditMode(false);
-      onUpdate();
     } catch (error) {
       console.error("Error updating post:", error);
     }
@@ -134,7 +132,6 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onUpdate, onDelete }
 
       const updatedPost: IPost = { ...post, userLikes: updatedLikes };
       await PostService.updatePost(post._id!, updatedPost);
-      onUpdate();
     } catch (error) {
       console.error("Error updating likes:", error);
     }
