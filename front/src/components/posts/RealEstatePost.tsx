@@ -6,7 +6,7 @@ import "../../styles/RealEstatePost.css";
 const RealEstatePosts: React.FC = () => {
   return (
     <div className="real-estate-container">
-      <PostList fetchPosts={PostService.getAll} isInProfilePage={false}  />
+      <PostList fetchPosts={PostService.getAll} isInProfilePage={false} onDelete={() => {}} />
     </div>
   );
 };

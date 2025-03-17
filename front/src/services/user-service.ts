@@ -9,7 +9,7 @@ export const registerUser = (user: IUser) => {
     axios
       .post<{ status: number; message: string }>(`${config.BASE_URL}/auth/register`, user)
       .then(async (response) => {
-        await loginUser({ password: user.password, email: user.email });
+        await loginUser({ password: user.password!, email: user.email! });
         resolve({ status: response.status, message: response.data.message });
       })
       .catch((error) => {
@@ -63,7 +63,7 @@ export const getUserById = async (id?: string): Promise<IUser> => {
 export const updateUser = async (formData: FormData) => {
   try {
     const userId = localStorage.getItem("id");
-    const payload: any = {};
+    const payload: { username?: FormDataEntryValue | null; imgUrl?: FormDataEntryValue | null } = {};
 
     if (formData.has("username")) {
       payload.username = formData.get("username");
