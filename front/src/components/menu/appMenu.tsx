@@ -5,7 +5,7 @@ import "./../../styles/AppMenu.css";
 import { logoutUser } from "../../services/user-service";
 
 const pages = [
-  { name: "AI help", path: "/ai-recommendations", icon: <Brain size={24} /> },
+  { name: "AI Help", path: "/ai-recommendations", icon: <Brain size={24} /> },
   { name: "Posts", path: "/posts", icon: <MessageSquare size={24} /> },
   { name: "Profile", path: "/profile", icon: <User size={24} /> },
   { name: "Add Post", path: "/addPost", icon: <PlusCircle size={24} /> },
