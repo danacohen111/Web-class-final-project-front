@@ -4,7 +4,7 @@ import { createPost } from "../../services/post-service";
 import { createRealEstate } from "../../services/realestate-service";
 import { uploadPhoto } from "../../services/file-service";
 import { IRealEstate, IPost } from "../../models/models";
-import "../../styles/AddPost.css"; 
+import "../../styles/AddPost.css";
 
 const AddPostPage: React.FC = () => {
   const navigate = useNavigate();
@@ -79,8 +79,8 @@ const AddPostPage: React.FC = () => {
         realestate: realEstate._id
       };
       await createPost(postData);
-      
-      navigate('/posts'); 
+
+      navigate('/posts');
     } catch (error) {
       console.error('Error creating post:', error);
       setErrorMessage("Failed to create the post. Please try again.");
@@ -88,46 +88,48 @@ const AddPostPage: React.FC = () => {
   };
 
   return (
-    <div className="add-post-container">
-      <h1>Create your real estate profile & Make your dream come true ⚡</h1>
-      <form onSubmit={handleSubmit} className="add-post-form">
-        
-        <input type="file" accept="image/*" onChange={handlePictureChange} className="file-input" />
-        {formData.picture && (
-          <div className="image-preview">
-            <img src={URL.createObjectURL(formData.picture)} alt="Preview" />
+    <div className="add-post-page">
+      <div className="add-post-container">
+        <h1>Create your real estate profile & Make your dream come true ⚡</h1>
+        <form onSubmit={handleSubmit} className="add-post-form">
+
+          <input type="file" accept="image/*" onChange={handlePictureChange} className="file-input" />
+          {formData.picture && (
+            <div className="image-preview">
+              <img src={URL.createObjectURL(formData.picture)} alt="Preview" />
+            </div>
+          )}
+
+          <div className="post-section">
+            <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleInputChange} />
+            {errors.title && <span className="error">{errors.title}</span>}
+
+            <input name="content" placeholder="Content" value={formData.content} onChange={handleInputChange} />
+            {errors.content && <span className="error">{errors.content}</span>}
           </div>
-        )}
 
-        <div className="post-section">
-          <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleInputChange} />
-          {errors.title && <span className="error">{errors.title}</span>}
+          <div className="real-estate-section">
+            <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleInputChange} />
+            {errors.city && <span className="error">{errors.city}</span>}
 
-          <input name="content" placeholder="Content" value={formData.content} onChange={handleInputChange} />
-          {errors.content && <span className="error">{errors.content}</span>}
-        </div>
+            <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleInputChange} />
+            {errors.address && <span className="error">{errors.address}</span>}
 
-        <div className="real-estate-section">
-          <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleInputChange} />
-          {errors.city && <span className="error">{errors.city}</span>}
+            <input type="text" name="area" placeholder="Area (m²)" value={formData.area} onChange={handleInputChange} />
+            {errors.area && <span className="error">{errors.area}</span>}
 
-          <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleInputChange} />
-          {errors.address && <span className="error">{errors.address}</span>}
+            <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleInputChange} />
+            {errors.location && <span className="error">{errors.location}</span>}
 
-          <input type="text" name="area" placeholder="Area (m²)" value={formData.area} onChange={handleInputChange} />
-          {errors.area && <span className="error">{errors.area}</span>}
+            <input type="text" name="description" placeholder="Description of the area" value={formData.description} onChange={handleInputChange} />
+            {errors.description && <span className="error">{errors.description}</span>}
+          </div>
 
-          <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleInputChange} />
-          {errors.location && <span className="error">{errors.location}</span>}
+          <button type="submit">Create My Real Estate</button>
+        </form>
 
-          <input type="text" name="description" placeholder="Description of the area" value={formData.description} onChange={handleInputChange} />
-          {errors.description && <span className="error">{errors.description}</span>}
-        </div>
-
-        <button type="submit">Create My Real Estate</button>
-      </form>
-
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
+      </div>
     </div>
   );
 };
