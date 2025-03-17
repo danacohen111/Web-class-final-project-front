@@ -51,7 +51,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
   }, [post]);
 
   const username = user?.username || "Unknown User";
-  const imgUrl = user?.imgUrl;
+  const imgUrl = user?.imgUrl || "";
   const realEstateImgUrl = selectedImage || originalRealEstateImgUrl || skylineDefault;
   
   const handleEditToggle = () => {

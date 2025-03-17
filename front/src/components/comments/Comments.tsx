@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IComment } from "../../models/models";
 import CommentService from "../../services/comment-service";
 import { getUserById } from "../../services/user-service"; 
+import { User } from "lucide-react"; 
 import "../../styles/comments.css";
 
 interface CommentsProps {
@@ -26,7 +27,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
               ...comment,
               userDetails: userDetails
                 ? { username: userDetails.username, imgUrl: userDetails.imgUrl }
-                : { username: "Unknown", imgUrl: "/default-avatar.png" },
+                : { username: "Unknown", imgUrl: "" },
             };
           })
         );
@@ -42,8 +43,8 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
       try {
         const userDetails = await getUserById();
         setCurrentUser(userDetails
-          ? { username: userDetails.username || "Unknown", imgUrl: userDetails.imgUrl || "/default-avatar.png" }
-          : { username: "Unknown", imgUrl: "/default-avatar.png" }
+          ? { username: userDetails.username || "Unknown", imgUrl: userDetails.imgUrl || "" }
+          : { username: "Unknown", imgUrl: "" }
         );
       } catch (error) {
         console.error("Error fetching user details:", error);
@@ -66,7 +67,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
         ...commentData,
         userDetails: userDetails
           ? { username: userDetails.username ?  userDetails.username : "Unknown", imgUrl: userDetails.imgUrl }
-          : { username: "Unknown", imgUrl: "/default-avatar.png" },
+          : { username: "Unknown", imgUrl: "" },
       },
     ]);
 
@@ -81,7 +82,11 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
         <div className="scrollable-comments">
           {comments.map((comment) => (
             <div key={comment._id} className="comment">
-              <img src={comment.userDetails?.imgUrl || "/default-avatar.png"} alt="User" />
+              {comment.userDetails?.imgUrl ? (
+                <img src={comment.userDetails.imgUrl} alt="User" />
+              ) : (
+                <User size={24} />
+              )}
               <div className="comment-content">
                 <span className="comment-username">{comment.userDetails?.username}</span>
                 <span className="comment-text">{comment.content}</span>
@@ -91,7 +96,11 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
         </div>
       <div className="add-comment">
         <div className="add-comment-header">
-          <img src={currentUser.imgUrl} alt="User" className="user-img" />
+          {currentUser.imgUrl ? (
+            <img src={currentUser.imgUrl} alt="User" className="user-img" />
+          ) : (
+            <User size={24} />
+          )}
           <p className="comment-username">{currentUser?.username || "Unknown"}</p>
         </div>
         <input

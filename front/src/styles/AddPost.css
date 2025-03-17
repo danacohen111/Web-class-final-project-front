@@ -1,132 +1,125 @@
 .add-post-container {
-    background: url('/mnt/data/image.png') no-repeat center center/cover;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    padding: 20px;
-  }
-  
-  h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-  }
-  
-  .add-post-form {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    padding: 20px;
-    border-radius: 10px;
-    width: 360px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .add-post-form input,
-  .add-post-form textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 0.9rem;
-    border-radius: 6px;
-    border: none;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    text-align: left;
-    outline: none;
-    margin-bottom: 8px;
-  }
-  
-  .add-post-form input::placeholder,
-  .add-post-form textarea::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  
-  .post-section,
-  .real-estate-section {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px;
-    border-radius: 8px;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  
-  .post-section {
-    border-left: 3px solid #61dafb;
-  }
-  
-  .real-estate-section {
-    border-left: 3px solid #ffa500;
-  }
-  
-  .file-input {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 8px;
-    border-radius: 6px;
-    border: none;
-    font-size: 0.8rem;
-    color: white;
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  .image-preview img {
-    max-width: 100px;
-    border-radius: 6px;
-    margin-bottom: 8px;
-    border: 2px solid white;
-  }
-  
-  .add-post-form button {
-    background: #61dafb;
-    color: black;
-    padding: 10px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .add-post-form button:hover {
-    background: #4cc1e0;
-  }
-  
-  .error-message {
-    margin-top: 10px;
-    font-size: 0.85rem;
-    color: #ff4d4d;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 8px;
-    border-radius: 6px;
-  }
-  
-  .add-post-form input {
-    width: 100%;
-    padding: 10px;
-    font-size: 0.9rem;
-    border-radius: 6px;
-    border: none;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    text-align: left;
-    outline: none;
-    margin-bottom: 8px;
-    resize: none; 
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background: url('../assets/Spotwise_background.png') no-repeat center center fixed;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  background: url('/mnt/data/image.png') no-repeat center center/cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+}
+
+.add-post-form {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  border-radius: 10px;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.add-post-form input,
+.add-post-form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-align: left;
+  outline: none;
+  margin-bottom: 8px;
+}
+
+.add-post-form input::placeholder,
+.add-post-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.post-section,
+.real-estate-section {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.post-section {
+  border-left: 3px solid #61dafb;
+}
+
+.real-estate-section {
+  border-left: 3px solid #ffa500;
+}
+
+.file-input {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.8rem;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+
+.image-preview img {
+  max-width: 100px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border: 2px solid white;
+}
+
+.add-post-form button {
+  background: #61dafb;
+  color: black;
+  padding: 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-post-form button:hover {
+  background: #4cc1e0;
+}
+
+.error-message {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #ff4d4d;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.add-post-form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-align: left;
+  outline: none;
+  margin-bottom: 8px;
+  resize: none; 
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: url('../assets/Spotwise_background.png') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
