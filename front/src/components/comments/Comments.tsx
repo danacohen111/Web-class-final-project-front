@@ -3,7 +3,7 @@ import { IComment } from "../../models/models";
 import CommentService from "../../services/comment-service";
 import { getUserById } from "../../services/user-service"; 
 import { User } from "lucide-react"; 
-import "../../styles/comments.css";
+import "../../styles/Comments.css";
 
 interface CommentsProps {
   postId: string;
