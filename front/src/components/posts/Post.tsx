@@ -21,7 +21,6 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
   const [currentUser, setCurrentUser] = useState<IUser | null>(null);
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [editableRealEstate, setEditableRealEstate] = useState<Partial<IRealEstate>>({});
-  const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [originalRealEstateImgUrl, setOriginalRealEstateImgUrl] = useState<string>("");
   const [likes, setLikes] = useState<string[]>(post.userLikes || []);
@@ -70,7 +69,6 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
   
   const handleUpdate = async () => {
     if (!realEstate || !post.realestate) return;
-    setLoading(true);
     let pictureUrl = originalRealEstateImgUrl; 
     const fileInput = document.getElementById("picture") as HTMLInputElement;
     if (fileInput && fileInput.files && fileInput.files[0]) {
@@ -84,8 +82,6 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
       setIsInEditMode(false);
     } catch (error) {
       console.error("Error updating post:", error);
-    } finally {
-      setLoading(false);
     }
   };
   

@@ -12,7 +12,6 @@ interface CommentsProps {
 const Comments: React.FC<CommentsProps> = ({ postId }) => {
   const [comments, setComments] = useState<IComment[]>([]);
   const [newComment, setNewComment] = useState("");
-  const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<{ username: string; imgUrl: string }>({ username: "Unknown", imgUrl: "/default-avatar.png" });
 
   useEffect(() => {
@@ -35,8 +34,6 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
         setComments(commentsWithUsers);
       } catch (error) {
         console.error("Error fetching comments:", error);
-      } finally {
-        setLoading(false);
       }
     };
     const fetchCurrentUser = async () => {

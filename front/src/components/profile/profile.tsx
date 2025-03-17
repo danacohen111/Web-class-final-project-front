@@ -10,7 +10,6 @@ import { IPost } from "../../models/models";
 
 const Profile: React.FC = () => {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -32,7 +31,6 @@ const Profile: React.FC = () => {
       try {
         const user = await getUserById();
         setUsername(user.username || "");
-        setEmail(user.email || "");
         setPreview(user.imgUrl || null);
         setOriginalUsername(user.username || "");
         setOriginalPreview(user.imgUrl || null);
