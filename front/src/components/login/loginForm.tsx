@@ -20,7 +20,7 @@ const Login = () => {
                 password: passwordInputRef.current?.value
             };
             try {
-                await loginUser({ password: user.password, email: user.email });
+                await loginUser({ password: user.password!, email: user.email! });
                 navigate("/posts");
             } catch (err: any) {
                 setError(err.message || "Login failed. Please try again.");

@@ -119,7 +119,7 @@
     text-align: left;
     outline: none;
     margin-bottom: 8px;
-    resize: none; /* Prevents unnecessary resizing */
+    resize: none; 
   }
   
   body {
