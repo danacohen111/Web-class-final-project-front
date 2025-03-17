@@ -50,7 +50,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
     fetchUserAndRealEstate();
   }, [post]);
 
-  const username = user?.username;
+  const username = user?.username || "Unknown User";
   const imgUrl = user?.imgUrl;
   const realEstateImgUrl = selectedImage || originalRealEstateImgUrl || skylineDefault;
   
