@@ -6,21 +6,22 @@ html, body {
 }
 
 .profile-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
+  min-height: 10vh;
   background: url('../assets/Spotwise_background.png') no-repeat center center fixed;
   background-size: cover;
   background-position: center;
-  padding-top: 50vh; 
+  /* padding-top: 50vh;  */
   box-sizing: border-box;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .profile-container.editing {
-  padding-top: 10vh; 
+  /* padding-top: 10vh;  */
 }
 
 .profile-content {

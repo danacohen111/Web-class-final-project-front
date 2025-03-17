@@ -2,12 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import AppMenu from "./components/menu/appMenu";
 import AppRoutes from "./components/routes/AppRoutes";
+import "./styles/App.css";
 
 const App: React.FC = () => {
   const location = useLocation();
 
   return (
-    <div>
+    <div className="app">
       {location.pathname !== "/login" && location.pathname !== "/signup" && <AppMenu />}
       <AppRoutes />
     </div>
