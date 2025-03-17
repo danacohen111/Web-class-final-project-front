@@ -3,7 +3,7 @@ import { IComment } from "../../models/models";
 import CommentService from "../../services/comment-service";
 import { getUserById } from "../../services/user-service"; 
 import { User } from "lucide-react"; 
-import "../../styles/comments.css";
+import "../../styles/Comments.css";
 
 interface CommentsProps {
   postId: string;
@@ -12,8 +12,7 @@ interface CommentsProps {
 const Comments: React.FC<CommentsProps> = ({ postId }) => {
   const [comments, setComments] = useState<IComment[]>([]);
   const [newComment, setNewComment] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<{ username: string; imgUrl: string }>({ username: "Unknown", imgUrl: "/default-avatar.png" });
+  const [currentUser, setCurrentUser] = useState<{ username: string; imgUrl: string }>({ username: "Unknown", imgUrl: "" });
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -35,8 +34,6 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
         setComments(commentsWithUsers);
       } catch (error) {
         console.error("Error fetching comments:", error);
-      } finally {
-        setLoading(false);
       }
     };
     const fetchCurrentUser = async () => {

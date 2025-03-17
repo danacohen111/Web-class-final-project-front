@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { getUserById, updateUser } from "../../services/user-service";
 import { uploadPhoto } from "../../services/file-service";
 import PostService from "../../services/post-service";
-import AppMenu from "../menu/appMenu";
 import PostList from "../posts/PostList";
 import { User as UserIcon } from "lucide-react";
 import "./../../styles/profile.css";
@@ -10,7 +9,6 @@ import { IPost } from "../../models/models";
 
 const Profile: React.FC = () => {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -32,7 +30,6 @@ const Profile: React.FC = () => {
       try {
         const user = await getUserById();
         setUsername(user.username || "");
-        setEmail(user.email || "");
         setPreview(user.imgUrl || null);
         setOriginalUsername(user.username || "");
         setOriginalPreview(user.imgUrl || null);
@@ -120,13 +117,8 @@ const Profile: React.FC = () => {
     return [];
   };
 
-  const handleDeletePost = (postId: string) => {
-    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
-  };
-
   return (
     <div className={`profile-container ${isEditing ? 'editing' : ''}`}>
-      <AppMenu />
       <div className="profile-content">
         <h2 className="profile-title">{displayName}</h2>
 
@@ -194,7 +186,7 @@ const Profile: React.FC = () => {
       {!isEditing && (
         <div className="user-posts">
           <h3 className="posts-title">Your Posts</h3>
-          <PostList fetchPosts={fetchUserPosts} isInProfilePage={true} onDelete={handleDeletePost}/>
+          <PostList fetchPosts={fetchUserPosts} isInProfilePage={true} />
         </div>
       )}
     </div>
