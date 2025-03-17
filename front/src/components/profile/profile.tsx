@@ -117,11 +117,6 @@ const Profile: React.FC = () => {
     return [];
   };
 
-  // const handleDeletePost = (postId: string) => {
-  //   setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
-  //   console.log("current use posts", posts);
-  // };
-
   return (
     <div className={`profile-container ${isEditing ? 'editing' : ''}`}>
       <div className="profile-content">

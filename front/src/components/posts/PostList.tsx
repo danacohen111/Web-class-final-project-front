@@ -8,26 +8,31 @@ import "../../styles/Pagination.css";
 interface PostListProps {
   fetchPosts: () => Promise<IPost[]>;
   isInProfilePage: boolean;
-  };
+}
 
 const PostList: React.FC<PostListProps> = ({ fetchPosts, isInProfilePage }) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = isInProfilePage ? 2 : 3;
-  
+
   const refreshPosts = async () => {
     try {
-      setPosts(await fetchPosts());
+      setLoading(true);
+      const fetchedPosts = await fetchPosts();
+      setPosts(fetchedPosts);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching posts:", error);
       setError("Error fetching posts.");
-      }
-    };
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     refreshPosts();
-  }, [refreshPosts]);
+  }, [fetchPosts]);
 
   const handleDelete = async (postId: string) => {
     setPosts(posts.filter((post) => post._id !== postId));
@@ -41,15 +46,30 @@ const PostList: React.FC<PostListProps> = ({ fetchPosts, isInProfilePage }) => {
   return (
     <>
       <div className="post-list">
-        {error && <p className="error">{error}</p>}
-        {selectedPosts.length > 0 ? (
-          selectedPosts.map((post) => <Post key={post._id} post={post} isInProfilePage={isInProfilePage} onUpdate={refreshPosts} onDelete={handleDelete}/>)
+        {loading ? (
+          <p>Loading posts...</p>
+        ) : error ? (
+          <p className="error">{error}</p>
+        ) : selectedPosts.length > 0 ? (
+          selectedPosts.map((post) => (
+            <Post
+              key={post._id}
+              post={post}
+              isInProfilePage={isInProfilePage}
+              onUpdate={refreshPosts}
+              onDelete={handleDelete}
+            />
+          ))
         ) : (
           <p>No posts available.</p>
         )}
       </div>
       {totalPages > 1 && (
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       )}
     </>
   );

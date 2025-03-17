@@ -12,7 +12,7 @@ interface CommentsProps {
 const Comments: React.FC<CommentsProps> = ({ postId }) => {
   const [comments, setComments] = useState<IComment[]>([]);
   const [newComment, setNewComment] = useState("");
-  const [currentUser, setCurrentUser] = useState<{ username: string; imgUrl: string }>({ username: "Unknown", imgUrl: "/default-avatar.png" });
+  const [currentUser, setCurrentUser] = useState<{ username: string; imgUrl: string }>({ username: "Unknown", imgUrl: "" });
 
   useEffect(() => {
     const fetchComments = async () => {
