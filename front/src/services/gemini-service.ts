@@ -8,7 +8,7 @@ const GeminiService = {
     try {
       const prompt = `Given the user dream: "${dream}" and the following real estate data: ${JSON.stringify(
         realEstateData
-      )}, return the best realestate according to the user's wishes and the reasons in a friendly paragraph as if you are a realestate agent`;
+      )}, return the best realestate city and description according to the user's wishes and the reasons in a friendly paragraph as if you are a realestate agent`;
 
       const response = await axios.post(
         `${API_URL}?key=${config.GEMINI_API_KEY}`,
