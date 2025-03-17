@@ -50,7 +50,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
     fetchUserAndRealEstate();
   }, [post]);
 
-  const username = user?.username || (user?.email ? user.email.split("@")[0] : "Unknown User");
+  const username = user?.username;
   const imgUrl = user?.imgUrl;
   const realEstateImgUrl = selectedImage || originalRealEstateImgUrl || skylineDefault;
   
@@ -71,7 +71,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
   const handleUpdate = async () => {
     if (!realEstate || !post.realestate) return;
     setLoading(true);
-    let pictureUrl = originalRealEstateImgUrl; // Default to original URL
+    let pictureUrl = originalRealEstateImgUrl; 
     const fileInput = document.getElementById("picture") as HTMLInputElement;
     if (fileInput && fileInput.files && fileInput.files[0]) {
       pictureUrl = await uploadPhoto(fileInput.files[0]);
@@ -80,7 +80,7 @@ const Post: React.FC<PostProps> = ({ post, isInProfilePage, onDelete }) => {
     try {
       await RealEstateService.updateRealEstate(post.realestate, editableRealEstate!);
       setRealEstate({ ...realEstate, ...editableRealEstate });
-      setOriginalRealEstateImgUrl(pictureUrl); // Update original URL
+      setOriginalRealEstateImgUrl(pictureUrl);
       setIsInEditMode(false);
     } catch (error) {
       console.error("Error updating post:", error);
