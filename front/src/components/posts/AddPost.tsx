@@ -90,7 +90,6 @@ const AddPostPage: React.FC = () => {
   return (
     <div className="add-post-container">
       <form onSubmit={handleSubmit} className="add-post-form">
-        
         <input type="file" accept="image/*" onChange={handlePictureChange} className="file-input" />
         {formData.picture && (
           <div className="image-preview">
