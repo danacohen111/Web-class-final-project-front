@@ -120,6 +120,7 @@ const Profile: React.FC = () => {
 
   const handleDeletePost = (postId: string) => {
     setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+    console.log("current use posts", posts);
   };
 
   return (
