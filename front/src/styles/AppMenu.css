@@ -1,9 +1,3 @@
-.app-menu-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
 .app-menu {
   position: fixed;
   top: 10px;
@@ -47,26 +41,4 @@
 .menu-text {
   margin-left: 10px;
   color: white;
-}
-
-@media (max-width: 768px) {
-  .app-menu {
-    top: 15px; /* Adjusted top spacing for smaller screens */
-    left: 15px; /* Adjusted left spacing for smaller screens */
-  }
-
-  .menu-dropdown {
-    top: 50px; /* Adjusted dropdown top spacing for smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .app-menu {
-    top: 10px; /* Adjusted top spacing for smaller screens */
-    left: 10px; /* Adjusted left spacing for smaller screens */
-  }
-
-  .menu-dropdown {
-    top: 45px; /* Adjusted dropdown top spacing for smaller screens */
-  }
 }
