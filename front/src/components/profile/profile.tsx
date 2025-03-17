@@ -5,7 +5,6 @@ import PostService from "../../services/post-service";
 import PostList from "../posts/PostList";
 import { User as UserIcon } from "lucide-react";
 import "./../../styles/profile.css";
-import { IPost } from "../../models/models";
 
 const Profile: React.FC = () => {
   const [username, setUsername] = useState("");
