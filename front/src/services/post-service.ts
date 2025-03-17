@@ -14,7 +14,7 @@ const fetchPostsWithDetails = async (posts: IPost[]): Promise<IPost[]> => {
 
         return {
           ...post,
-          sender: userDetails ?? { username: "Unknown", imgUrl: "/default-avatar.png", _id: "" },
+          sender: userDetails ?? { username: "Unknown", imgUrl: null, _id: "" },
           realEstateDetails: realEstateDetails ?? {
             city: "Unknown City",
             address: "No Address",
