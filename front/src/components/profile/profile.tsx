@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { getUserById, updateUser } from "../../services/user-service";
 import { uploadPhoto } from "../../services/file-service";
 import PostService from "../../services/post-service";
-import AppMenu from "../menu/appMenu";
 import PostList from "../posts/PostList";
 import { User as UserIcon } from "lucide-react";
 import "./../../styles/profile.css";
@@ -118,14 +117,13 @@ const Profile: React.FC = () => {
     return [];
   };
 
-  const handleDeletePost = (postId: string) => {
-    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
-    console.log("current use posts", posts);
-  };
+  // const handleDeletePost = (postId: string) => {
+  //   setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+  //   console.log("current use posts", posts);
+  // };
 
   return (
     <div className={`profile-container ${isEditing ? 'editing' : ''}`}>
-      <AppMenu />
       <div className="profile-content">
         <h2 className="profile-title">{displayName}</h2>
 
@@ -193,7 +191,7 @@ const Profile: React.FC = () => {
       {!isEditing && (
         <div className="user-posts">
           <h3 className="posts-title">Your Posts</h3>
-          <PostList fetchPosts={fetchUserPosts} isInProfilePage={true} onDelete={handleDeletePost}/>
+          <PostList fetchPosts={fetchUserPosts} isInProfilePage={true} />
         </div>
       )}
     </div>

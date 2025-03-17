@@ -27,7 +27,7 @@ const PostList: React.FC<PostListProps> = ({ fetchPosts, isInProfilePage }) => {
 
   useEffect(() => {
     refreshPosts();
-  }, []);
+  }, [refreshPosts]);
 
   const handleDelete = async (postId: string) => {
     setPosts(posts.filter((post) => post._id !== postId));
