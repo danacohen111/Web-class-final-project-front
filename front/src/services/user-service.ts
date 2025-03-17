@@ -63,7 +63,7 @@ export const getUserById = async (id?: string): Promise<IUser> => {
 export const updateUser = async (formData: FormData) => {
   try {
     const userId = localStorage.getItem("id");
-    const payload: { username?: FormDataEntryValue | null; imgUrl?: FormDataEntryValue | null } = {};
+    const payload: any = {};
 
     if (formData.has("username")) {
       payload.username = formData.get("username");
