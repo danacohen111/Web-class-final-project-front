@@ -9,7 +9,7 @@ export const registerUser = (user: IUser) => {
     axios
       .post<{ status: number; message: string }>(`${config.BASE_URL}/auth/register`, user)
       .then(async (response) => {
-        await loginUser({ password: user.password, email: user.email });
+        await loginUser({ password: user.password!, email: user.email! });
         resolve({ status: response.status, message: response.data.message });
       })
       .catch((error) => {

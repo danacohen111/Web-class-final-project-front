@@ -109,7 +109,7 @@ const Profile: React.FC = () => {
     setSuccessMessage(null);
   };
 
-  const displayName = isEditing ? username : (originalUsername || email.split('@')[0] || "My Profile");
+  const displayName = isEditing ? username : (originalUsername || "My Profile");
 
   const isUpdateDisabled = !hasUsernameChanged && !hasImageChanged;
 

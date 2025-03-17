@@ -26,7 +26,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
             return {
               ...comment,
               userDetails: userDetails
-                ? { username: userDetails.username || userDetails.email?.split("@")[0], imgUrl: userDetails.imgUrl }
+                ? { username: userDetails.username, imgUrl: userDetails.imgUrl }
                 : { username: "Unknown", imgUrl: "" },
             };
           })
@@ -43,7 +43,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
       try {
         const userDetails = await getUserById();
         setCurrentUser(userDetails
-          ? { username: userDetails.username || userDetails.email?.split("@")[0] || "Unknown", imgUrl: userDetails.imgUrl || "" }
+          ? { username: userDetails.username || "Unknown", imgUrl: userDetails.imgUrl || "" }
           : { username: "Unknown", imgUrl: "" }
         );
       } catch (error) {
@@ -66,7 +66,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
       {
         ...commentData,
         userDetails: userDetails
-          ? { username: userDetails.username ?  userDetails.username : (userDetails.email?.split("@")[0] ?? "Unknown"), imgUrl: userDetails.imgUrl }
+          ? { username: userDetails.username ?  userDetails.username : "Unknown", imgUrl: userDetails.imgUrl }
           : { username: "Unknown", imgUrl: "" },
       },
     ]);
@@ -88,7 +88,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
                 <User size={24} />
               )}
               <div className="comment-content">
-                <span className="comment-username">{comment.userDetails?.username || comment.userDetails?.email?.split("@")[0]}</span>
+                <span className="comment-username">{comment.userDetails?.username}</span>
                 <span className="comment-text">{comment.content}</span>
               </div>
             </div>
